@@ -19,7 +19,9 @@
     "@jawad/security": "workspace:*",
     "@jawad/telegram": "workspace:*",
     "@jawad/payments": "workspace:*",
-    "@jawad/attachments": "workspace:*"
+    "@jawad/attachments": "workspace:*",
+    "@jawad/config": "workspace:*",
+    "ioredis": "5.11.1"
   },
   "devDependencies": {
     "@types/node": "22.15.30",

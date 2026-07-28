@@ -6,9 +6,9 @@ export function validateTelegramInitData(initData:string, botToken:string, maxAg
   const secret=createHmac("sha256","WebAppData").update(botToken).digest();
   const expected=createHmac("sha256",secret).update(dataCheck).digest("hex");
   const a=Buffer.from(expected,"hex"), b=Buffer.from(hash,"hex");
-  return a.length===b.length && timingSafeEqual(a,b) ? {ok:true,reason:"VALID",user:parseUser(p.get("user"))} : {ok:false,reason:"INVALID_HASH"};
+  return a.length===b.length && timingSafeEqual(a,b) ? {ok:true,reason:"VALID",user:parseUser(p.get("user")),startParam:p.get("start_param")??undefined} : {ok:false,reason:"INVALID_HASH"};
 }
-function parseUser(raw:string|null){ if(!raw) return undefined; try { const x=JSON.parse(raw); return {id:String(x.id),username:typeof x.username==="string"?x.username:undefined,firstName:typeof x.first_name==="string"?x.first_name:undefined}; } catch { return undefined; } }
+function parseUser(raw:string|null){if(!raw)return undefined;try{const x=JSON.parse(raw) as Record<string,unknown>;const id=typeof x.id==="number"&&Number.isSafeInteger(x.id)&&x.id>0?String(x.id):typeof x.id==="string"&&/^[1-9]\d{0,19}$/.test(x.id)?x.id:undefined;if(!id)return undefined;const username=typeof x.username==="string"&&/^[A-Za-z0-9_]{1,32}$/.test(x.username)?x.username:undefined;const firstName=typeof x.first_name==="string"?x.first_name.trim().slice(0,64):undefined;return{id,...(username?{username}:{}),...(firstName?{firstName}:{})}}catch{return undefined}}
 
 const allowedExtensions=new Set(["png","jpg","jpeg","webp","txt","log","pdf","zip"]);
 const allowedMimes=new Set(["image/png","image/jpeg","image/webp","text/plain","application/pdf","application/zip","application/x-zip-compressed"]);

@@ -3,6 +3,7 @@ export type Network = "TRON_TRC20" | "BASE_USDC";
 export interface Invoice { id:string; network:Network; token:"USDT"|"USDC"; recipient:string; tokenContract:string; amountMinor:bigint; decimals:number; createdAt:number; expiresAt:number; status:"OPEN"|"PAID"|"EXPIRED"|"AMBIGUOUS"; txHash?:string; }
 export interface NormalizedTransfer { txHash:string; network:Network; success:boolean; tokenContract:string; from:string; to:string; amountMinor:bigint; confirmations:number; timestamp:number; }
 export interface VerificationEvidence { ok:boolean; code:string; details:string[]; transfer?:NormalizedTransfer; }
+export function canonicalPaymentTransactionHash(network:Network,txHash:string):string{const stripped=txHash.trim().replace(/^0x/i,"").toLowerCase();return network==="BASE_USDC"?`0x${stripped}`:stripped}
 export class PaymentLedger {
   private assignments = new Map<string,string>();
   private invoices = new Map<string,Invoice>();
@@ -10,9 +11,10 @@ export class PaymentLedger {
   get(id:string){ return this.invoices.get(id); }
   verifyAndAssign(invoiceId:string, transfer:NormalizedTransfer, minConfirmations:number, now=Date.now()): VerificationEvidence {
     const invoice=this.invoices.get(invoiceId); if(!invoice) return {ok:false,code:"INVOICE_NOT_FOUND",details:[]};
-    if(invoice.status==="PAID") return invoice.txHash===transfer.txHash ? {ok:true,code:"ALREADY_PAID_IDEMPOTENT",details:[]} : {ok:false,code:"INVOICE_ALREADY_PAID",details:[]};
+    const txHash=canonicalPaymentTransactionHash(transfer.network,transfer.txHash);const canonicalTransfer={...transfer,txHash};
+    if(invoice.status==="PAID") return invoice.txHash===txHash ? {ok:true,code:"ALREADY_PAID_IDEMPOTENT",details:[]} : {ok:false,code:"INVOICE_ALREADY_PAID",details:[]};
     if(now>invoice.expiresAt) { invoice.status="EXPIRED"; return {ok:false,code:"INVOICE_EXPIRED",details:["Late payments require manual review"]}; }
-    const assigned=this.assignments.get(transfer.txHash); if(assigned && assigned!==invoiceId) return {ok:false,code:"DUPLICATE_TX_HASH",details:[`Already assigned to ${assigned}`]};
+    const assigned=this.assignments.get(txHash); if(assigned && assigned!==invoiceId) return {ok:false,code:"DUPLICATE_TX_HASH",details:[`Already assigned to ${assigned}`]};
     const errors:string[]=[];
     if(transfer.network!==invoice.network) errors.push("WRONG_NETWORK");
     if(!transfer.success) errors.push("FAILED_TRANSACTION");
@@ -20,13 +22,13 @@ export class PaymentLedger {
     if(transfer.to.toLowerCase()!==invoice.recipient.toLowerCase()) errors.push("WRONG_RECIPIENT");
     if(transfer.amountMinor<invoice.amountMinor) errors.push("INSUFFICIENT_AMOUNT");
     if(transfer.confirmations<minConfirmations) errors.push("INSUFFICIENT_CONFIRMATIONS");
-    if(errors.length) return {ok:false,code:errors[0]!,details:errors,transfer};
-    this.assignments.set(transfer.txHash,invoiceId); invoice.status="PAID"; invoice.txHash=transfer.txHash;
-    return {ok:true,code:"PAYMENT_CONFIRMED",details:["Immutable assignment recorded"],transfer};
+    if(errors.length) return {ok:false,code:errors[0]!,details:errors,transfer:canonicalTransfer};
+    this.assignments.set(txHash,invoiceId); invoice.status="PAID"; invoice.txHash=txHash;
+    return {ok:true,code:"PAYMENT_CONFIRMED",details:["Immutable assignment recorded"],transfer:canonicalTransfer};
   }
   matchWatcher(invoiceId:string, transfers:NormalizedTransfer[], minConfirmations:number): VerificationEvidence {
     const invoice=this.invoices.get(invoiceId); if(!invoice) return {ok:false,code:"INVOICE_NOT_FOUND",details:[]};
-    const candidates=transfers.filter(t=>t.network===invoice.network && t.success && t.tokenContract.toLowerCase()===invoice.tokenContract.toLowerCase() && t.to.toLowerCase()===invoice.recipient.toLowerCase() && t.amountMinor>=invoice.amountMinor && t.confirmations>=minConfirmations && t.timestamp>=invoice.createdAt && t.timestamp<=invoice.expiresAt && !this.assignments.has(t.txHash));
+    const candidates=transfers.filter(t=>t.network===invoice.network && t.success && t.tokenContract.toLowerCase()===invoice.tokenContract.toLowerCase() && t.to.toLowerCase()===invoice.recipient.toLowerCase() && t.amountMinor>=invoice.amountMinor && t.confirmations>=minConfirmations && t.timestamp>=invoice.createdAt && t.timestamp<=invoice.expiresAt && !this.assignments.has(canonicalPaymentTransactionHash(t.network,t.txHash)));
     if(candidates.length===0) return {ok:false,code:"NO_MATCH",details:[]};
     if(candidates.length>1) { invoice.status="AMBIGUOUS"; return {ok:false,code:"AMBIGUOUS_MATCH",details:candidates.map(c=>c.txHash)}; }
     return this.verifyAndAssign(invoiceId,candidates[0]!,minConfirmations);
@@ -40,14 +42,14 @@ export function paymentUri(invoice:Invoice){ return [`JAWAD_DEV_DESK_INVOICE`,`n
 export interface TronGridTransferRaw { transaction_id:string; block_timestamp:number; from:string; to:string; type?:string; value:string; token_info?:{address?:string;decimals?:number}; }
 export function normalizeTronTransfer(raw:TronGridTransferRaw,confirmations:number):NormalizedTransfer{
   if(!raw.transaction_id||!raw.from||!raw.to||!raw.token_info?.address)throw new Error("INVALID_TRON_TRANSFER");
-  return{txHash:raw.transaction_id,network:"TRON_TRC20",success:raw.type!=="Transfer"?false:true,tokenContract:raw.token_info.address,from:raw.from,to:raw.to,amountMinor:BigInt(raw.value),confirmations,timestamp:raw.block_timestamp};
+  return{txHash:canonicalPaymentTransactionHash("TRON_TRC20",raw.transaction_id),network:"TRON_TRC20",success:raw.type!=="Transfer"?false:true,tokenContract:raw.token_info.address,from:raw.from,to:raw.to,amountMinor:BigInt(raw.value),confirmations,timestamp:raw.block_timestamp};
 }
 const TRANSFER_TOPIC="0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef";
 export interface BaseReceiptRaw { transactionHash:string;status:string;blockNumber:string;logs:{address:string;topics:string[];data:string}[]; }
 function topicAddress(topic:string){return "0x"+topic.slice(-40)}
 export function normalizeBaseUsdcTransfer(receipt:BaseReceiptRaw,input:{chainId:number;expectedChainId:number;confirmations:number;timestamp:number;recipient:string;tokenContract:string}):NormalizedTransfer{
   if(input.chainId!==input.expectedChainId)throw new Error("WRONG_BASE_CHAIN"); const log=receipt.logs.find(l=>l.address.toLowerCase()===input.tokenContract.toLowerCase()&&l.topics[0]?.toLowerCase()===TRANSFER_TOPIC&&topicAddress(l.topics[2]??"").toLowerCase()===input.recipient.toLowerCase()); if(!log)throw new Error("USDC_TRANSFER_LOG_NOT_FOUND");
-  return{txHash:receipt.transactionHash,network:"BASE_USDC",success:receipt.status==="0x1",tokenContract:log.address,from:topicAddress(log.topics[1]??""),to:topicAddress(log.topics[2]??""),amountMinor:BigInt(log.data),confirmations:input.confirmations,timestamp:input.timestamp};
+  return{txHash:canonicalPaymentTransactionHash("BASE_USDC",receipt.transactionHash),network:"BASE_USDC",success:receipt.status==="0x1",tokenContract:log.address,from:topicAddress(log.topics[1]??""),to:topicAddress(log.topics[2]??""),amountMinor:BigInt(log.data),confirmations:input.confirmations,timestamp:input.timestamp};
 }
 
 export interface PrintableReceipt {

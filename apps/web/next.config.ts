@@ -10,7 +10,7 @@ const baseCsp="default-src 'self'; connect-src 'self' https://api.telegram.org; 
 const config: NextConfig={
   output:"standalone",
   poweredByHeader:false,
-  transpilePackages:["@jawad/database","@jawad/domain","@jawad/qualification","@jawad/security","@jawad/telegram","@jawad/payments","@jawad/attachments"],
+  transpilePackages:["@jawad/database","@jawad/domain","@jawad/qualification","@jawad/security","@jawad/telegram","@jawad/payments","@jawad/attachments","@jawad/config"],
   experimental:{typedEnv:true},
   headers:async()=>[
     {source:"/:path*",headers:sharedHeaders},

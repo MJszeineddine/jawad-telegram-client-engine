@@ -1,13 +1,15 @@
 import { createServer } from "node:http";
+import { isDemoMode } from "../../../packages/config/src/index.ts";
 import { processQueueJob } from "./core.ts";
 import { startBullMqRuntime } from "./bullmq-adapter.ts";
 
-const demo=(process.env.DEMO_MODE??"true")==="true";
+const demo=isDemoMode();
 const healthPort=Number(process.env.WORKER_HEALTH_PORT??3002);
+let ready=demo;
 createServer((request,response)=>{
   if(request.url!=="/health"){response.writeHead(404).end();return}
-  response.writeHead(200,{"content-type":"application/json","cache-control":"no-store"});
-  response.end(JSON.stringify({ok:true,service:"worker",mode:demo?"demo":"production"}));
+  response.writeHead(ready?200:503,{"content-type":"application/json","cache-control":"no-store"});
+  response.end(JSON.stringify({ok:ready,ready,service:"worker",mode:demo?"demo":"production"}));
 }).listen(healthPort,()=>console.log(JSON.stringify({level:"info",service:"worker-health",port:healthPort})));
 
 if(demo){
@@ -30,4 +32,6 @@ if(demo){
     paymentConfirmationsBase:Number(process.env.PAYMENT_CONFIRMATIONS_BASE??12),
     paymentConfirmationsTron:Number(process.env.PAYMENT_CONFIRMATIONS_TRON??20),
   });
+  ready=true;
+  console.log(JSON.stringify({level:"info",service:"worker",event:"runtime-ready"}));
 }

@@ -6,10 +6,10 @@ A safe Telegram-based client-acquisition, technical-intake, qualification, quote
 
 - Deterministic intake qualification for Quick Fix, Rescue, Production Sprint, and rejection.
 - Human-approved quote and capacity workflow.
-- Idempotent transaction assignment with wrong-chain, wrong-token, wrong-recipient, insufficient-value, confirmation, duplicate, expiry, late-payment, and ambiguity controls.
-- Telegram deep-link attribution, Mini App init-data validation, command UX, attachment restrictions, secret redaction, and authorised-group demand scoring.
+- Idempotent read-only transaction assignment with canonical hashes, database token/network constraints, wrong-chain, wrong-token, wrong-recipient, insufficient-value, confirmation, duplicate, expiry, late-payment, and ambiguity controls.
+- Signed Telegram deep-link attribution, Mini App init-data validation, command UX, bounded and signature-checked attachments, secret redaction, and authorised-group demand scoring.
 - Mobile-first safe local dashboard and API demo requiring no Telegram token, wallet, RPC, PostgreSQL, Redis, or AI key.
-- Next.js 16.2.12 production workspace, grammY package boundary, PostgreSQL migrations, Redis/BullMQ worker boundary, Docker Compose, CI, threat model, runbooks, and setup material.
+- Encrypted sensitive fields, Redis-backed production API rate limits, client-bound delivery acceptance, Next.js 16.2.12, grammY, PostgreSQL migrations, BullMQ, Docker Compose, CI, threat model, runbooks, and setup material.
 
 ## Safe local demo
 
@@ -44,7 +44,7 @@ Telegram account OTP, two-step verification, BotFather bot creation, channel cre
 
 ## Commands
 
-`npm run qa` runs lint, strict typecheck, unit tests, integration tests, full mock E2E, build validation, secret scan, and repository validation.
+`npm run qa` runs lint, strict core/web typechecks, 78 unit and contract tests, integration tests, full mock E2E, build validation, secret scan, dependency policy, migration inventory, and repository/setup validation. The exact pushed commit must also pass the connected PostgreSQL/Redis/Next.js/Playwright GitHub Actions gate before deployment. See `docs/release-readiness.md`.
 
 ## Safety boundary
 

@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { createAdminSession, verifyAdminSession, createCsrfToken, verifyCsrfToken, isSafePublicHttpsUrl, redactStructuredLog, sameOrigin, encryptJson, decryptJson } from "../packages/security/src/index.ts";
+import { publicPaymentEvidence } from "../packages/database/src/index.ts";
 
 const secret = "a-secure-test-secret-that-is-longer-than-32-characters";
 
@@ -39,4 +40,24 @@ test("sensitive intake JSON uses authenticated encryption", () => {
   assert.notEqual(envelope.ciphertext.includes("confidential"), true);
   assert.deepEqual(decryptJson(envelope, key), { privateProject: "confidential", error: "safe" });
   assert.throws(() => decryptJson({ ...envelope, tag: Buffer.alloc(16).toString("base64") }, key));
+});
+
+
+test("client payment evidence strips internal override metadata", () => {
+  assert.deepEqual(publicPaymentEvidence({
+    txHash: "0xabc",
+    network: "BASE_USDC",
+    confirmations: 12,
+    manualOverride: true,
+    recordedAt: "2026-07-28T00:00:00.000Z",
+    actor: "owner@example",
+    reasonEncrypted: { algorithm: "aes-256-gcm", ciphertext: "secret" },
+    providerDebug: "internal",
+  }), {
+    txHash: "0xabc",
+    network: "BASE_USDC",
+    confirmations: 12,
+    manualOverride: true,
+    recordedAt: "2026-07-28T00:00:00.000Z",
+  });
 });

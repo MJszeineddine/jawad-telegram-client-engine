@@ -27,6 +27,7 @@ jobs:
       DATA_ENCRYPTION_KEY: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       SEED_DATABASE: "true"
       RUN_DATABASE_TESTS: "true"
+      REQUIRE_LOCKFILE: "true"
 
     services:
       postgres:
@@ -70,7 +71,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
       - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Apply database migrations
         run: pnpm db:migrate

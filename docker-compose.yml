@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
   migrate:
     build: .
-    command: ["pnpm", "db:migrate"]
+    command: ["node", "--experimental-strip-types", "scripts/migrate.ts"]
     env_file: .env
     environment:
       DATABASE_URL: postgresql://jawad:jawad@postgres:5432/jawad_engine

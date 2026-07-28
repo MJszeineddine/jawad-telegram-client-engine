@@ -50,7 +50,7 @@ async function createOpenInvoice(repo: Awaited<ReturnType<typeof createPostgresR
     expiresAt: new Date(Date.now() + 60 * 60 * 1000),
     approvedBy: "ci-integration"
   });
-  const invoiceId = await repo.createInvoiceForQuote({
+  const { invoiceId } = await repo.createInvoiceForQuote({
     quoteId,
     network: "BASE_USDC",
     recipientAddress: "0x1111111111111111111111111111111111111111",
@@ -59,7 +59,7 @@ async function createOpenInvoice(repo: Awaited<ReturnType<typeof createPostgresR
     expiresAt: new Date(Date.now() + 60 * 60 * 1000),
     actor: "ci-integration"
   });
-  return { leadId, invoiceId };
+  return { leadId, invoiceId, telegramUserId };
 }
 
 test("PostgreSQL payment confirmation is concurrent, idempotent, and transaction-unique", { skip: !enabled }, async () => {
@@ -89,6 +89,17 @@ test("PostgreSQL payment confirmation is concurrent, idempotent, and transaction
     assert.equal(ticket?.status, "paid");
     assert.equal(ticket?.latestInvoice?.txHash, txHash);
     assert.equal(ticket?.job?.id, concurrent[0].jobId);
+    assert.equal(ticket?.latestQuote?.scope, "Repair the bounded checkout submission defect.");
+    assert.deepEqual(ticket?.job?.acceptanceTest, ["A valid checkout submits exactly once"]);
+
+    await repo.updateJobStatus(concurrent[0].jobId,"in_progress","ci-owner");
+    await assert.rejects(repo.updateJobStatus(concurrent[0].jobId,"awaiting_client_acceptance","ci-owner",{deliveryMessage:"Ready",testResults:["PASS"]}),/DELIVERY_EVIDENCE_REQUIRED/);
+    await repo.updateJobStatus(concurrent[0].jobId,"awaiting_client_acceptance","ci-owner",{deliveryMessage:"Bounded repair delivered with regression evidence.",testResults:["Checkout regression test PASS"],proof:[{kind:"ci-proof",digest:"fixture"}]});
+    const clientTicket=await repo.getClientTicket(first.leadId,first.telegramUserId);
+    assert.equal(clientTicket?.job?.deliveryMessage,"Bounded repair delivered with regression evidence.");
+    assert.deepEqual(clientTicket?.job?.testResults,["Checkout regression test PASS"]);
+    await repo.acceptJob({jobId:concurrent[0].jobId,telegramUserId:first.telegramUserId,feedback:"Accepted after CI verification."});
+    assert.equal((await repo.getLead(first.leadId))?.status,"completed");
 
     const second = await createOpenInvoice(repo, "second");
     await assert.rejects(

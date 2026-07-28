@@ -24,6 +24,9 @@
       ],
       "@jawad/attachments": [
         "packages/attachments/src/index.ts"
+      ],
+      "@jawad/config": [
+        "packages/config/src/index.ts"
       ]
     }
   },

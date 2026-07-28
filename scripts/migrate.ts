@@ -15,6 +15,9 @@ const files=[
   "packages/database/migrations/008_job_operations.sql",
   "packages/database/migrations/009_partner_operations.sql",
   "packages/database/migrations/010_partner_fraud_controls.sql",
+  "packages/database/migrations/011_acceptance_evidence.sql",
+  "packages/database/migrations/012_sensitive_data_and_attribution.sql",
+  "packages/database/migrations/013_financial_integrity.sql",
 ];
 if(new Set(files).size!==files.length)throw new Error("DUPLICATE_MIGRATION_ENTRY");
 const migrations: Array<{name:string;body:string}>=[];
