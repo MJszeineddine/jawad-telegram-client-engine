@@ -305,3 +305,15 @@ test("all web-imported workspace packages expose TypeScript entrypoints for Next
   assert.equal(databasePackage.exports,"./src/index.ts");
   for(const name of ["@jawad/database","@jawad/domain","@jawad/qualification","@jawad/security","@jawad/telegram","@jawad/payments","@jawad/attachments","@jawad/config"])assert.match(nextConfig,new RegExp(name.replace("/","\\/")));
 });
+
+
+test("binary attachment responses copy Buffer data into an owned ArrayBuffer", async () => {
+  for (const path of [
+    "apps/web/app/api/admin/attachments/[id]/route.ts",
+    "apps/web/app/api/client/attachments/[id]/route.ts",
+  ]) {
+    const source = await readFile(path, "utf8");
+    assert.match(source, /const body=new Uint8Array\(bytes\.length\);body\.set\(bytes\);return new Response\(body\.buffer/);
+    assert.doesNotMatch(source, /return new Response\(bytes,/);
+  }
+});

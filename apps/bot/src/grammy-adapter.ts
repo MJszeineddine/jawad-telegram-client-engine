@@ -69,7 +69,7 @@ ${signal.suggestedManualResponse}`);if(decision.automaticReply&&approvedTemplate
   bot.on("message:photo",(ctx:any)=>{const photos=ctx.message.photo??[];const photo=photos.at(-1);if(!photo)return;return acceptAttachment(ctx,{fileId:photo.file_id,name:`telegram-photo-${ctx.message.message_id}.jpg`,mime:"image/jpeg",size:photo.file_size??0})});
 
 
-  if(input.miniAppUrl) await bot.api.setChatMenuButton({ menu_button: { type: "web_app", text: "Open Dev Desk", web_app: { url: input.miniAppUrl } } });
+  if(input.miniAppUrl?.startsWith("https://")) await bot.api.setChatMenuButton({ menu_button: { type: "web_app", text: "Open Dev Desk", web_app: { url: input.miniAppUrl } } }); else await bot.api.setChatMenuButton({ menu_button: { type: "commands" } });
   await bot.api.setMyCommands(commands.map(command=>({command,description:({start:"Open the Dev Desk",fix:"Submit one technical bug",agency:"Submit agency overflow work",rescue:"Request production rescue",portfolio:"View engineering work",services:"View supported services",pricing:"View starting packages",availability:"Check current capacity",payment:"View supported crypto payments",status:"Check an existing ticket",privacy:"View privacy and security rules",cancel:"Cancel the current submission",help:"Get help"} as Record<string,string>)[command]!})));
   return bot;
 }

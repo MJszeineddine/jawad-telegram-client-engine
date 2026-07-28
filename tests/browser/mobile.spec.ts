@@ -1,5 +1,12 @@
 import { test, expect } from "@playwright/test";
 
+test.beforeEach(async ({ request }) => {
+  const response = await request.get("/api/leads");
+  for (const lead of await response.json()) {
+    await request.delete(`/api/leads/${lead.id}`);
+  }
+});
+
 test("safe demo has no horizontal overflow and exposes privacy warnings", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { name: /Production rescue/ })).toBeVisible();

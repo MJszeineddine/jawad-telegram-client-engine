@@ -62,12 +62,46 @@ async function createOpenInvoice(repo: Awaited<ReturnType<typeof createPostgresR
   return { leadId, invoiceId, telegramUserId };
 }
 
+async function resetIntegrationData(): Promise<void> {
+  const module = await import("postgres") as any;
+  const postgres = module.default ?? module;
+  const sql = postgres(databaseUrl, { max: 1, prepare: true });
+  try {
+    await sql`
+      TRUNCATE
+        attachments,
+        audit_log,
+        backup_runs,
+        conversations,
+        deletion_requests,
+        demand_signals,
+        group_monitors,
+        invoices,
+        jobs,
+        leads,
+        notifications,
+        partner_events,
+        partners,
+        payment_assignments,
+        payment_verification_attempts,
+        processed_telegram_updates,
+        quotes,
+        referrals,
+        testimonial_requests
+      RESTART IDENTITY CASCADE
+    `;
+  } finally {
+    await sql.end({ timeout: 5 });
+  }
+}
+
 test("PostgreSQL payment confirmation is concurrent, idempotent, and transaction-unique", { skip: !enabled }, async () => {
   assert.ok(databaseUrl, "DATABASE_URL is required when RUN_DATABASE_TESTS=true");
+  await resetIntegrationData();
   const repo = await createPostgresRepository(databaseUrl, encryptionKey);
   try {
     const first = await createOpenInvoice(repo, "first");
-    const txHash = `0x${"ab".repeat(32)}`;
+    const txHash = `0x${randomUUID().replaceAll("-", "")}${randomUUID().replaceAll("-", "")}`;
     const transfer = {
       txHash,
       network: "BASE_USDC" as const,
