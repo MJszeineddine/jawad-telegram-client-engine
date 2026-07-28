@@ -21,6 +21,16 @@ npm run dev
 
 The safe demo uses synthetic data and mocked, normalised blockchain transfers. It never claims a real client, payment, or job.
 
+## Live local Telegram bot
+
+After BotFather creation and secure token storage, the owner can run one audited bootstrap command:
+
+```bash
+corepack pnpm telegram:bootstrap
+```
+
+The bootstrap verifies the bot identity, applies the name/description/commands through the official Bot API, pairs the private owner chat with a one-time code, creates local secrets without printing them, starts PostgreSQL and Redis, applies migrations and seed data, and launches the bot in long-polling mode. An HTTP localhost URL is never registered as a Telegram Mini App menu; the menu remains command-based until a verified HTTPS deployment URL exists.
+
 ## Production workspace
 
 When package-registry access and Docker are available:
@@ -44,7 +54,7 @@ Telegram account OTP, two-step verification, BotFather bot creation, channel cre
 
 ## Commands
 
-`npm run qa` runs lint, strict core/web typechecks, 78 unit and contract tests, integration tests, full mock E2E, build validation, secret scan, dependency policy, migration inventory, and repository/setup validation. The exact pushed commit must also pass the connected PostgreSQL/Redis/Next.js/Playwright GitHub Actions gate before deployment. See `docs/release-readiness.md`.
+`npm run qa` runs lint, strict core/web typechecks, the complete unit and contract suite, integration tests, full mock E2E, build validation, secret scan, dependency policy, migration inventory, and repository/setup validation. The exact pushed commit must also pass the connected PostgreSQL/Redis/Next.js/Playwright GitHub Actions gate before deployment. See `docs/release-readiness.md`.
 
 ## Safety boundary
 

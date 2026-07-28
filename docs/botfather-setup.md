@@ -40,6 +40,19 @@ help - Get help
    - Even when disabled, enable monitoring only for groups with explicit admin authorisation recorded in the dashboard.
 10. Add only the minimal default administrator rights needed for approved channel posting or group monitoring.
 
+
+## Audited local bootstrap
+
+After the token has been stored in `.env`, run:
+
+```bash
+corepack pnpm telegram:bootstrap
+```
+
+The command verifies that the token belongs to `@JawadDevDeskBot`, applies the bot name, description, short description, and command menu through the Bot API, removes any stale webhook, pairs Jawad's private chat using a one-time `/pair` code, writes the numeric admin chat ID securely, starts PostgreSQL and Redis, runs migrations and seed data, and launches long polling. The token is never printed.
+
+A Telegram Mini App menu button is configured only after `MINI_APP_URL` is a verified HTTPS URL. Local `http://localhost` URLs are deliberately rejected for the Telegram menu.
+
 ## Webhook
 
 Production should call `setWebhook` with the deployed HTTPS endpoint, `secret_token`, and an explicit `allowed_updates` list. Verify `X-Telegram-Bot-Api-Secret-Token` with a timing-safe comparison. Local development uses long polling.
