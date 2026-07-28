@@ -25,7 +25,41 @@ test("Telegram bootstrap is token-safe, pairs the owner, and launches long polli
   assert.match(source, /setMyCommands/);
   assert.match(source, /setChatMenuButton/);
   assert.match(source, /pnpm", "dev:bot/);
+  assert.match(source, /localhost:55432\/jawad_engine/);
+  assert.match(source, /Admin chat paired: yes/);
+  assert.doesNotMatch(source, /Admin chat paired: \$\{/);
   assert.doesNotMatch(source, /console\.(?:log|error)\([^\n]*token/i);
+});
+
+test("local Docker stack avoids common host ports and binds services to loopback", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const compose = await readFile(new URL("../docker-compose.yml", import.meta.url), "utf8");
+  const dockerfile = await readFile(new URL("../Dockerfile", import.meta.url), "utf8");
+  const dockerignore = await readFile(new URL("../.dockerignore", import.meta.url), "utf8");
+
+  assert.match(compose, /postgres:17-alpine/);
+  assert.match(compose, /127\.0\.0\.1:\$\{POSTGRES_HOST_PORT:-55432\}:5432/);
+  assert.match(compose, /127\.0\.0\.1:\$\{LOCAL_WEB_PORT:-3100\}:3000/);
+  assert.match(compose, /BOT_WEBHOOK_PORT: 3101/);
+  assert.match(compose, /WORKER_HEALTH_PORT: 3200/);
+  assert.doesNotMatch(compose, /"3000:3000"/);
+  assert.match(dockerfile, /pnpm install --frozen-lockfile/);
+  assert.match(dockerignore, /\*\*\/node_modules/);
+  assert.match(dockerignore, /\*\*\/\.next/);
+});
+
+test("backup and restore Docker fallbacks are limited to the local Compose database", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const backup = await readFile(new URL("../scripts/backup-database.ts", import.meta.url), "utf8");
+  const restore = await readFile(new URL("../scripts/restore-test.ts", import.meta.url), "utf8");
+
+  for (const source of [backup, restore]) {
+    assert.match(source, /localComposeDatabaseName/);
+    assert.match(source, /parsed\.hostname==="localhost"\|\|parsed\.hostname==="127\.0\.0\.1"/);
+    assert.match(source, /parsed\.port==="55432"/);
+    assert.match(source, /parsed\.username==="jawad"/);
+  }
+  assert.doesNotMatch(backup, /"-d","jawad_engine"/);
 });
 
 test("live local Telegram mode validates without wallet or HTTPS deployment credentials", async () => {

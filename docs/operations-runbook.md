@@ -15,8 +15,8 @@
 
 ## Monthly
 
-- Run `pnpm db:backup`, copy the encrypted-at-rest archive to the approved private backup destination, and record the location reference without exporting runtime environment variables.
-- Restore the latest archive into a separate disposable PostgreSQL database with `RESTORE_DATABASE_URL=... pnpm db:restore-test -- /path/to/archive.dump`. The script refuses to target the configured source database.
+- Run `pnpm db:backup`, copy the private archive to the approved private backup destination, and record the location reference without exporting runtime environment variables. The script uses host PostgreSQL clients when installed, otherwise the project Docker Compose PostgreSQL container.
+- Restore the latest archive into a separate disposable PostgreSQL database with `RESTORE_DATABASE_URL=... pnpm db:restore-test -- /path/to/archive.dump`. The script refuses to target the configured source database and can use the project Docker Compose PostgreSQL clients for local `localhost:55432` restore tests.
 - Rotate low-impact secrets when practical and verify emergency token-rotation access.
 - Review retention, referral fraud flags, and audit-log access.
 

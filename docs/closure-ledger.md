@@ -1,0 +1,34 @@
+# Closure Ledger
+
+Last updated: 29 July 2026, Asia/Beirut.
+
+## Completed owner-independent closure
+
+- Repository audit: `.env` is ignored and untracked; git history was scanned with Gitleaks 8.28.0 using redaction and no tracked leaks were found.
+- Local runtime: Docker Compose uses PostgreSQL 17 on loopback host port 55432, Redis on loopback 6379, web on loopback 3100, bot health on loopback 3101, and worker health on loopback 3200.
+- Build container: production image installs with `pnpm install --frozen-lockfile`, excludes local `node_modules` and `.next`, and runs the Next.js server with Node after image build.
+- Migrations: local and CI migration flow runs idempotently and targets the project database, not the unrelated host PostgreSQL service on port 5432.
+- Backup and restore: `pnpm db:backup` can use either host PostgreSQL clients or Docker Compose PostgreSQL clients. `pnpm db:restore-test -- <archive>` restores only to `RESTORE_DATABASE_URL` and refuses the configured source database.
+- Live Telegram local mode: BotFather metadata, command menu, and long polling were verified for `@JawadDevDeskBot` without printing the token or admin chat id.
+- Full local stack: web, bot health, worker health, PostgreSQL, Redis, and persistent volumes were started, health-checked, restarted, and health-checked again.
+- CI workflow hardening: CI now uses PostgreSQL 17, checks migration idempotence, runs high-severity production and full dependency audits, validates Docker Compose config, and builds the container image.
+
+## Verification Evidence
+
+- `corepack pnpm db:backup` produced a private runtime dump under `runtime/backups/` using Docker Compose PostgreSQL clients when host `pg_dump` was unavailable.
+- `RESTORE_DATABASE_URL=postgresql://jawad:jawad@localhost:55432/jawad_engine_restore_test corepack pnpm db:restore-test -- <archive>` completed with source database protection enabled.
+- `docker compose build` completed successfully after `.dockerignore` and frozen-lockfile changes.
+- `docker compose up -d migrate web worker bot` completed and all service health endpoints returned ready responses.
+- `docker compose restart web worker bot postgres redis` completed and post-restart health checks passed.
+- Live Telegram checks confirmed `getMe`, empty webhook state, command menu, bot commands, bot name/description, and a running local long-polling bot process.
+
+## Remaining Manual Gates
+
+- GitHub Actions cannot become green until the repository owner's GitHub billing/account lock is cleared; the latest checked run failed before jobs started with a billing issue.
+- Production deployment still requires owner-controlled hosting login, billing approval, production secrets, DNS, and HTTPS URL configuration.
+- Public Telegram channel launch still requires the owner to create or approve the channel and grant the bot administrator rights.
+- Wallet receiving addresses and read-only chain provider credentials still require owner entry before real payment verification can be enabled in production.
+
+## Resume Point
+
+After the GitHub billing/account lock is cleared, resume by rerunning the pushed GitHub Actions workflow, confirming the local commit matches `origin/main`, then proceeding to production deployment secrets and Telegram channel wiring.

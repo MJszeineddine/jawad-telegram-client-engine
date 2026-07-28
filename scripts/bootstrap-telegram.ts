@@ -125,7 +125,7 @@ const updates: Record<string, string> = {
   DEMO_MODE: "false",
   APP_BASE_URL: existing.APP_BASE_URL || "http://localhost:3100",
   MINI_APP_URL: existing.MINI_APP_URL || "",
-  DATABASE_URL: existing.DATABASE_URL || "postgresql://jawad:jawad@localhost:5432/jawad_engine",
+  DATABASE_URL: existing.DATABASE_URL || "postgresql://jawad:jawad@localhost:55432/jawad_engine",
   REDIS_URL: existing.REDIS_URL || "redis://localhost:6379",
   TRUSTED_PROXY_HEADER: existing.TRUSTED_PROXY_HEADER || "x-real-ip",
   TELEGRAM_BOT_TOKEN: token,
@@ -179,7 +179,7 @@ await telegram(token, "sendMessage", { chat_id: adminChatId, text: "Jawad Dev De
 
 console.log("\nTelegram bootstrap PASS");
 console.log(`Verified bot: @${username}`);
-console.log(`Admin chat paired: ${adminChatId}`);
+console.log("Admin chat paired: yes");
 console.log(`Bot PID: ${bot.pid}`);
 console.log(`Log: ${logPath}`);
 console.log("The Mini App menu remains on commands until a verified HTTPS deployment URL is configured.");

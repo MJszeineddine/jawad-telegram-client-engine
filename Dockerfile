@@ -2,7 +2,7 @@ FROM node:22-alpine AS build
 RUN corepack enable
 WORKDIR /app
 COPY . .
-RUN pnpm install --no-frozen-lockfile
+RUN pnpm install --frozen-lockfile
 RUN pnpm --filter @jawad/web build
 
 FROM node:22-alpine AS runtime
