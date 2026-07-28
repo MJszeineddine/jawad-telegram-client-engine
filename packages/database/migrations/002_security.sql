@@ -1,0 +1,6 @@
+BEGIN;
+CREATE OR REPLACE FUNCTION touch_updated_at() RETURNS trigger LANGUAGE plpgsql AS $$ BEGIN NEW.updated_at=now(); RETURN NEW; END $$;
+CREATE TRIGGER leads_touch BEFORE UPDATE ON leads FOR EACH ROW EXECUTE FUNCTION touch_updated_at();
+CREATE TRIGGER jobs_touch BEFORE UPDATE ON jobs FOR EACH ROW EXECUTE FUNCTION touch_updated_at();
+REVOKE ALL ON payment_assignments FROM PUBLIC; REVOKE ALL ON audit_log FROM PUBLIC;
+COMMIT;

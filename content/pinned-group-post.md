@@ -1,0 +1,1 @@
+Need help with an existing web product? Jawad Dev Desk accepts reproducible React, Next.js, Node.js, Python, PostgreSQL, authentication, dashboard, integration, deployment, and production-stabilisation tasks. Submit voluntarily through [BOT LINK]. Do not send credentials, tokens, private keys, seed phrases, or database dumps. Every quote is reviewed manually.

@@ -1,0 +1,26 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "packages/domain/src/**/*.ts",
+    "packages/qualification/src/**/*.ts",
+    "packages/payments/src/**/*.ts",
+    "packages/telegram/src/**/*.ts",
+    "packages/config/src/**/*.ts",
+    "apps/worker/src/**/*.ts",
+    "apps/demo/src/**/*.ts",
+    "scripts/**/*.ts",
+    "tests/**/*.ts",
+    "types/**/*.d.ts",
+    "apps/bot/src/**/*.ts",
+    "packages/attachments/src/**/*.ts",
+    "packages/security/src/**/*.ts",
+    "packages/database/src/**/*.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "apps/web",
+    "tests/browser",
+    "playwright.config.ts"
+  ]
+}

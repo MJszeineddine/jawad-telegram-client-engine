@@ -1,0 +1,13 @@
+import { redirect } from "next/navigation";
+import { currentAdmin, loadDashboard, loadOperations } from "../../lib/admin";
+export const dynamic = "force-dynamic";
+const order=["new_lead","awaiting_information","awaiting_review","quote_sent","awaiting_payment","paid","in_progress","awaiting_client_acceptance","completed","rejected","refunded"];
+export default async function Admin(){
+  const admin=await currentAdmin(); if(!admin)redirect("/admin/login");
+  const [{snapshot,source,error},{capacity}]=await Promise.all([loadDashboard(),loadOperations()]);
+  return <main className="admin-shell"><header className="admin-top"><div><span>PRIVATE OPERATIONS</span><h1>Client engine</h1><p>Signed in as {admin.session.subject} · {admin.session.role} · source: {source}</p></div><form method="post" action="/api/admin/logout"><input type="hidden" name="csrf" value={admin.csrf}/><button className="secondary">Sign out</button></form></header>
+  {error?<div className="alert">Degraded mode: {error}</div>:null}
+  <section className="metrics">{order.map((status)=><article key={status}><small>{status.replaceAll("_"," ")}</small><strong>{snapshot.counts[status]??0}</strong></article>)}</section>
+  <section className="admin-grid"><article className="panel"><div className="panel-head"><h2>Latest leads</h2><span>{snapshot.leads.length} shown · <a href="/admin/settings">Operations settings</a> · <a href="/admin/partners">Partners & referrals</a> · <a href="/admin/privacy">Privacy requests</a></span></div><div className="table-wrap"><table><thead><tr><th>Lead</th><th>Kind</th><th>Status</th><th>Source</th><th>Created</th></tr></thead><tbody>{snapshot.leads.map((lead)=><tr key={lead.id}><td><a href={`/admin/leads/${lead.id}`}>{lead.telegramUsername?`@${lead.telegramUsername}`:lead.id.slice(0,8)}</a></td><td>{lead.intakeKind}</td><td><span className="status">{lead.status}</span></td><td>{lead.attributionSource}</td><td>{new Date(lead.createdAt).toLocaleString("en-GB")}</td></tr>)}</tbody></table></div></article>
+  <aside className="panel"><h2>Capacity controls</h2><dl><div><dt>Quick fixes</dt><dd>{capacity.maximumActiveQuickFixes} active max</dd></div><div><dt>Rescue jobs</dt><dd>{capacity.maximumRescueJobs} active max</dd></div><div><dt>Checkout</dt><dd>{capacity.pauseCheckout?"Paused":"Capacity checked"}</dd></div><div><dt>Away mode</dt><dd>{capacity.awayMode?"On":"Off"}</dd></div>{capacity.nextAvailableDate?<div><dt>Next available</dt><dd>{capacity.nextAvailableDate}</dd></div>:null}</dl><p className="muted">When capacity is full, leads are still collected but immediate payment remains disabled.</p></aside></section></main>
+}

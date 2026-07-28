@@ -1,0 +1,13 @@
+{
+  "name": "@jawad/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "bullmq": "5.79.3",
+    "ioredis": "5.11.1",
+    "@jawad/database": "workspace:*",
+    "@jawad/payments": "workspace:*",
+    "@jawad/attachments": "workspace:*"
+  }
+}

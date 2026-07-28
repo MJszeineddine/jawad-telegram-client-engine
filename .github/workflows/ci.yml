@@ -1,0 +1,39 @@
+name: CI
+on: [push, pull_request]
+permissions: {contents: read}
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    env:
+      DEMO_MODE: "true"
+      DATABASE_URL: postgresql://jawad:jawad@127.0.0.1:5432/jawad_engine
+      REDIS_URL: redis://127.0.0.1:6379
+      DATA_ENCRYPTION_KEY: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+      SEED_DATABASE: "true"
+      RUN_DATABASE_TESTS: "true"
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env: {POSTGRES_USER: jawad, POSTGRES_PASSWORD: jawad, POSTGRES_DB: jawad_engine}
+        ports: ["5432:5432"]
+        options: "--health-cmd='pg_isready -U jawad -d jawad_engine' --health-interval=5s --health-timeout=5s --health-retries=20"
+      redis:
+        image: redis:8-alpine
+        ports: ["6379:6379"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: {version: 10.14.0}
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm db:migrate
+      - run: pnpm db:seed
+      - run: pnpm qa
+      - run: pnpm --filter @jawad/web build
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:browser
+      - run: pnpm audit --audit-level high
+      - uses: gitleaks/gitleaks-action@v2
+        env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}

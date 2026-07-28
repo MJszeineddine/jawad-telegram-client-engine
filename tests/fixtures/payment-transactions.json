@@ -1,0 +1,5 @@
+{
+  "tron": {"transaction_id":"demo-tron-tx","block_timestamp":1000,"from":"T_DEMO_CLIENT","to":"T_DEMO_RECEIVER","type":"Transfer","value":"100000000","token_info":{"address":"T_DEMO_USDT_CONTRACT","decimals":6}},
+  "base": {"transactionHash":"0xdemo","status":"0x1","blockNumber":"0x10","logs":[]},
+  "notice":"Synthetic fixtures only; no real payment or wallet is represented."
+}

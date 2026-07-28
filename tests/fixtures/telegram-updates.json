@@ -1,0 +1,4 @@
+{
+  "privateStart": {"update_id": 1, "message": {"message_id": 1, "from": {"id": 123, "is_bot": false, "first_name": "Demo"}, "chat": {"id": 123, "type": "private"}, "date": 0, "text": "/start partner_demo-agency"}},
+  "authorisedGroupSignal": {"update_id": 2, "message": {"message_id": 9, "from": {"id": 456, "is_bot": false, "first_name": "Member"}, "chat": {"id": -100123, "type": "supergroup", "title": "Authorised Demo Group"}, "date": 0, "text": "Urgent: looking for a developer for a paid production bug today"}}
+}

@@ -1,0 +1,4 @@
+import { NextResponse } from "next/server";
+import { sameOrigin, verifyCsrfToken } from "@jawad/security";
+import { CSRF_COOKIE, SESSION_COOKIE } from "../../../../lib/admin";
+export async function POST(request:Request){if(!sameOrigin(request.url,request.headers.get("origin")))return NextResponse.json({error:"ORIGIN_REJECTED"},{status:403});const form=await request.formData();const session=request.headers.get("cookie")?.match(/(?:^|; )jawad_admin_session=([^;]+)/)?.[1];const cookieCsrf=request.headers.get("cookie")?.match(/(?:^|; )jawad_csrf=([^;]+)/)?.[1];const csrf=String(form.get("csrf")??"");const secret=process.env.ADMIN_SESSION_SECRET??"";if(!session||!cookieCsrf||csrf!==cookieCsrf||!verifyCsrfToken(session,csrf,secret))return NextResponse.json({error:"CSRF_REJECTED"},{status:403});const response=NextResponse.redirect(new URL("/admin/login",request.url),303);response.cookies.delete(SESSION_COOKIE);response.cookies.delete(CSRF_COOKIE);return response}

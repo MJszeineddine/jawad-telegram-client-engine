@@ -1,0 +1,2 @@
+import {createHash,randomBytes} from "node:crypto";
+const password=process.argv[2];console.log(`ADMIN_SESSION_SECRET=${randomBytes(48).toString("base64url")}`);console.log(`DATA_ENCRYPTION_KEY=${randomBytes(32).toString("base64")}`);console.log(`TELEGRAM_WEBHOOK_SECRET=${randomBytes(32).toString("base64url")}`);if(password)console.log(`ADMIN_PASSWORD_SHA256=${createHash("sha256").update(password).digest("hex")}`);else console.log("ADMIN_PASSWORD_SHA256=<run again with the intended admin password as the first argument>");

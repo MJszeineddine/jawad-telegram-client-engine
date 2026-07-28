@@ -1,0 +1,40 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@jawad/database": [
+        "packages/database/src/index.ts"
+      ],
+      "@jawad/domain": [
+        "packages/domain/src/index.ts"
+      ],
+      "@jawad/qualification": [
+        "packages/qualification/src/index.ts"
+      ],
+      "@jawad/security": [
+        "packages/security/src/index.ts"
+      ],
+      "@jawad/telegram": [
+        "packages/telegram/src/index.ts"
+      ],
+      "@jawad/payments": [
+        "packages/payments/src/index.ts"
+      ],
+      "@jawad/attachments": [
+        "packages/attachments/src/index.ts"
+      ]
+    }
+  },
+  "include": [
+    "apps/web/**/*.ts",
+    "apps/web/**/*.tsx",
+    "packages/**/*.ts",
+    "types/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

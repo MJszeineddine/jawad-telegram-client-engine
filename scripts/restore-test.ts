@@ -1,0 +1,10 @@
+import { spawnSync } from "node:child_process";
+import { resolve } from "node:path";
+const backup=process.argv[2];const target=process.env.RESTORE_DATABASE_URL;const production=process.env.DATABASE_URL;
+if(!backup)throw new Error("BACKUP_PATH_REQUIRED");if(!target)throw new Error("RESTORE_DATABASE_URL_REQUIRED");if(production&&target===production)throw new Error("REFUSING_TO_RESTORE_OVER_SOURCE_DATABASE");
+const archive=resolve(backup);
+const restore=spawnSync("pg_restore",["--clean","--if-exists","--no-owner","--no-privileges","--dbname",target,archive],{stdio:"inherit",env:{...process.env,PGAPPNAME:"jawad-client-engine-restore-test"}});
+if(restore.status!==0)throw new Error((restore.error as {code?:string}|undefined)?.code==="ENOENT"?"PG_RESTORE_NOT_INSTALLED":"RESTORE_FAILED");
+const check=spawnSync("psql",[target,"-v","ON_ERROR_STOP=1","-Atc","SELECT CASE WHEN to_regclass('public.leads') IS NOT NULL AND to_regclass('public.payment_assignments') IS NOT NULL AND to_regclass('public.audit_log') IS NOT NULL THEN 'RESTORE_OK' ELSE 'RESTORE_INCOMPLETE' END;"],{encoding:"utf8",env:{...process.env,PGAPPNAME:"jawad-client-engine-restore-test"}});
+if(check.status!==0||!check.stdout.includes("RESTORE_OK"))throw new Error("RESTORE_SANITY_CHECK_FAILED");
+console.log(JSON.stringify({ok:true,archive,targetVerified:true,sourceDatabaseProtected:true}));

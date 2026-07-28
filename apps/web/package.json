@@ -1,0 +1,31 @@
+{
+  "name": "@jawad/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port 3000"
+  },
+  "dependencies": {
+    "next": "16.2.12",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3",
+    "qrcode": "1.5.4",
+    "@jawad/database": "workspace:*",
+    "@jawad/domain": "workspace:*",
+    "@jawad/qualification": "workspace:*",
+    "@jawad/security": "workspace:*",
+    "@jawad/telegram": "workspace:*",
+    "@jawad/payments": "workspace:*",
+    "@jawad/attachments": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.30",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3",
+    "@types/qrcode": "1.5.6"
+  }
+}

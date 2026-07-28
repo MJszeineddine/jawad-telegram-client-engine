@@ -1,0 +1,6 @@
+{
+  "notice": "Synthetic local demo data; never present as a real client, testimonial, revenue, or payment.",
+  "admin": {"displayName":"Jawad Demo Admin","role":"owner"},
+  "partner": {"slug":"demo-agency","name":"Demo Agency","commissionBps":2000},
+  "capacity": {"maximumActiveQuickFixes":2,"maximumRescueJobs":1,"pauseCheckout":false,"awayMode":false}
+}
