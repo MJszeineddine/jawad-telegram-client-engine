@@ -1,39 +1,99 @@
 name: CI
-on: [push, pull_request]
-permissions: {contents: read}
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
+    name: Quality gates
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     env:
+      CI: "true"
       DEMO_MODE: "true"
       DATABASE_URL: postgresql://jawad:jawad@127.0.0.1:5432/jawad_engine
       REDIS_URL: redis://127.0.0.1:6379
       DATA_ENCRYPTION_KEY: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       SEED_DATABASE: "true"
       RUN_DATABASE_TESTS: "true"
+
     services:
       postgres:
         image: postgres:18-alpine
-        env: {POSTGRES_USER: jawad, POSTGRES_PASSWORD: jawad, POSTGRES_DB: jawad_engine}
-        ports: ["5432:5432"]
-        options: "--health-cmd='pg_isready -U jawad -d jawad_engine' --health-interval=5s --health-timeout=5s --health-retries=20"
+        env:
+          POSTGRES_USER: jawad
+          POSTGRES_PASSWORD: jawad
+          POSTGRES_DB: jawad_engine
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U jawad -d jawad_engine"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
       redis:
         image: redis:8-alpine
-        ports: ["6379:6379"]
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with: {version: 10.14.0}
-      - uses: actions/setup-node@v4
-        with: {node-version: 22}
-      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
-      - run: pnpm install --no-frozen-lockfile
-      - run: pnpm db:migrate
-      - run: pnpm db:seed
-      - run: pnpm qa
-      - run: pnpm --filter @jawad/web build
-      - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:browser
-      - run: pnpm audit --audit-level high
-      - uses: gitleaks/gitleaks-action@v2
-        env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.14.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Apply database migrations
+        run: pnpm db:migrate
+
+      - name: Seed deterministic demo data
+        run: pnpm db:seed
+
+      - name: Run repository quality gates
+        run: pnpm qa
+
+      - name: Build production web app
+        run: pnpm --filter @jawad/web build
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run mobile and desktop browser tests
+        run: pnpm test:browser
+
+      - name: Audit production dependencies
+        run: pnpm audit --prod --audit-level high
+
+      - name: Scan repository for secrets
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
