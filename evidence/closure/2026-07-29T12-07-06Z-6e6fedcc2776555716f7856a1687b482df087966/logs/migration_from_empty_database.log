@@ -1,0 +1,318 @@
+ Container jawad_closure_6e6fedcc_120706-postgres-1  Running
+#1 [internal] load local bake definitions
+#1 reading from stdin 629B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 528B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/node:22-alpine
+#3 DONE 0.8s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 171B done
+#4 DONE 0.0s
+
+#5 [build 1/6] FROM docker.io/library/node:22-alpine@sha256:16e22a550f3863206a3f701448c45f7912c6896a62de43add43bb9c86130c3e2
+#5 resolve docker.io/library/node:22-alpine@sha256:16e22a550f3863206a3f701448c45f7912c6896a62de43add43bb9c86130c3e2 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 48.70kB 0.0s done
+#6 DONE 0.0s
+
+#7 [build 2/6] RUN corepack enable
+#7 CACHED
+
+#8 [build 3/6] WORKDIR /app
+#8 CACHED
+
+#9 [build 4/6] COPY . .
+#9 DONE 0.1s
+
+#10 [build 5/6] RUN pnpm install --frozen-lockfile
+#10 0.214 ! Corepack is about to download https://registry.npmjs.org/pnpm/-/pnpm-10.14.0.tgz
+#10 2.276 Scope: all 13 workspace projects
+#10 2.310 Lockfile is up to date, resolution step is skipped
+#10 2.323 Progress: resolved 1, reused 0, downloaded 0, added 0
+#10 2.368 Packages: +96
+#10 2.368 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#10 3.200
+#10 3.200    ╭───────────────────────────────────────────────╮
+#10 3.200    │                                               │
+#10 3.200    │     Update available! 10.14.0 → 11.17.0.      │
+#10 3.200    │     Changelog: https://pnpm.io/v/11.17.0      │
+#10 3.200    │   To update, run: corepack use pnpm@11.17.0   │
+#10 3.200    │                                               │
+#10 3.200    ╰───────────────────────────────────────────────╯
+#10 3.200
+#10 3.324 Progress: resolved 96, reused 0, downloaded 25, added 25
+#10 4.324 Progress: resolved 96, reused 0, downloaded 41, added 41
+#10 5.324 Progress: resolved 96, reused 0, downloaded 68, added 68
+#10 6.328 Progress: resolved 96, reused 0, downloaded 79, added 78
+#10 7.329 Progress: resolved 96, reused 0, downloaded 87, added 87
+#10 8.329 Progress: resolved 96, reused 0, downloaded 89, added 89
+#10 9.330 Progress: resolved 96, reused 0, downloaded 90, added 90
+#10 11.77 Progress: resolved 96, reused 0, downloaded 91, added 90
+#10 12.77 Progress: resolved 96, reused 0, downloaded 92, added 92
+#10 17.39 Progress: resolved 96, reused 0, downloaded 93, added 92
+#10 18.40 Progress: resolved 96, reused 0, downloaded 93, added 93
+#10 24.44 Progress: resolved 96, reused 0, downloaded 94, added 93
+#10 25.44 Progress: resolved 96, reused 0, downloaded 94, added 94
+#10 36.33 Progress: resolved 96, reused 0, downloaded 95, added 94
+#10 37.33 Progress: resolved 96, reused 0, downloaded 95, added 95
+#10 37.81 Progress: resolved 96, reused 0, downloaded 96, added 96, done
+#10 37.97
+#10 37.97 dependencies:
+#10 37.97 + postgres 3.4.9
+#10 37.97
+#10 37.97 devDependencies:
+#10 37.97 + @playwright/test 1.61.1
+#10 37.97 + @types/node 22.15.30
+#10 37.97 + typescript 5.9.3
+#10 37.97
+#10 37.97 ╭ Warning ─────────────────────────────────────────────────────────────────────╮
+#10 37.97 │                                                                              │
+#10 37.97 │   Ignored build scripts: msgpackr-extract.                                   │
+#10 37.97 │   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+#10 37.97 │   to run scripts.                                                            │
+#10 37.97 │                                                                              │
+#10 37.97 ╰──────────────────────────────────────────────────────────────────────────────╯
+#10 37.97
+#10 38.05 Done in 36s using pnpm v10.14.0
+#10 DONE 38.3s
+
+#11 [build 6/6] RUN pnpm --filter @jawad/web build
+#11 0.515
+#11 0.515 > @jawad/web@0.1.0 build /app/apps/web
+#11 0.515 > next build
+#11 0.515
+#11 0.834 Attention: Next.js now collects completely anonymous telemetry regarding usage.
+#11 0.835 This information is used to shape Next.js' roadmap and prioritize features.
+#11 0.835 You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+#11 0.835 https://nextjs.org/telemetry
+#11 0.835
+#11 0.850 ▲ Next.js 16.2.12 (Turbopack)
+#11 0.850 - Experiments (use with caution):
+#11 0.850   ✓ typedEnv
+#11 0.850
+#11 0.890   Creating an optimized production build ...
+#11 2.703 ✓ Compiled successfully in 1660ms
+#11 2.707   Running TypeScript ...
+#11 5.447   Finished TypeScript in 2.7s ...
+#11 5.451   Collecting page data using 11 workers ...
+#11 5.910   Generating static pages using 11 workers (0/15) ...
+#11 5.964   Generating static pages using 11 workers (3/15)
+#11 6.040   Generating static pages using 11 workers (7/15)
+#11 6.048   Generating static pages using 11 workers (11/15)
+#11 6.072 ✓ Generating static pages using 11 workers (15/15) in 162ms
+#11 6.078   Finalizing page optimization ...
+#11 6.299
+#11 6.301 Route (app)
+#11 6.301 ┌ ○ /
+#11 6.301 ├ ○ /_not-found
+#11 6.301 ├ ƒ /admin
+#11 6.301 ├ ƒ /admin/jobs/[id]
+#11 6.301 ├ ƒ /admin/leads/[id]
+#11 6.301 ├ ○ /admin/login
+#11 6.301 ├ ƒ /admin/partners
+#11 6.301 ├ ƒ /admin/privacy
+#11 6.301 ├ ƒ /admin/settings
+#11 6.301 ├ ƒ /api/admin/attachments/[id]
+#11 6.301 ├ ƒ /api/admin/invoices/[id]/manual-confirm
+#11 6.301 ├ ƒ /api/admin/jobs/[id]/action
+#11 6.301 ├ ƒ /api/admin/jobs/[id]/attachments
+#11 6.301 ├ ƒ /api/admin/jobs/[id]/details
+#11 6.301 ├ ƒ /api/admin/leads/[id]/action
+#11 6.301 ├ ƒ /api/admin/leads/[id]/messages
+#11 6.301 ├ ƒ /api/admin/leads/[id]/quote
+#11 6.301 ├ ƒ /api/admin/login
+#11 6.301 ├ ƒ /api/admin/logout
+#11 6.301 ├ ƒ /api/admin/partners
+#11 6.301 ├ ƒ /api/admin/privacy/deletions/[id]/complete
+#11 6.301 ├ ƒ /api/admin/quotes/[id]/invoice
+#11 6.301 ├ ƒ /api/admin/referrals/[id]/payout
+#11 6.301 ├ ƒ /api/admin/settings/capacity
+#11 6.301 ├ ƒ /api/admin/settings/groups
+#11 6.301 ├ ƒ /api/attachments
+#11 6.301 ├ ƒ /api/client/attachments/[id]
+#11 6.301 ├ ƒ /api/health
+#11 6.301 ├ ƒ /api/intake
+#11 6.301 ├ ƒ /api/invoices/[id]
+#11 6.301 ├ ƒ /api/invoices/[id]/qr
+#11 6.301 ├ ƒ /api/invoices/[id]/receipt
+#11 6.301 ├ ƒ /api/invoices/[id]/verify
+#11 6.301 ├ ƒ /api/jobs/[id]/accept
+#11 6.301 ├ ƒ /api/privacy/deletion
+#11 6.301 ├ ƒ /api/telegram/validate
+#11 6.301 ├ ƒ /api/testimonials
+#11 6.301 ├ ƒ /api/tickets/[id]
+#11 6.301 ├ ƒ /api/tickets/[id]/messages
+#11 6.301 ├ ○ /mini-app
+#11 6.301 └ ƒ /mini-app/[section]
+#11 6.301
+#11 6.301
+#11 6.301 ○  (Static)   prerendered as static content
+#11 6.301 ƒ  (Dynamic)  server-rendered on demand
+#11 6.301
+#11 DONE 6.6s
+
+#12 [runtime 2/5] RUN apk add --no-cache postgresql-client
+#12 CACHED
+
+#13 [runtime 3/5] WORKDIR /app
+#13 CACHED
+
+#14 [runtime 4/5] COPY --from=build --chown=node:node /app /app
+#14 DONE 2.3s
+
+#15 [runtime 5/5] RUN mkdir -p /app/runtime/uploads && chown -R node:node /app/runtime
+#15 DONE 0.2s
+
+#16 exporting to image
+#16 exporting layers
+#16 exporting layers 13.0s done
+#16 exporting manifest sha256:2f9839b735776c7295a0dd553362c82a5fe054a5c629fd683df2e77d84de984d done
+#16 exporting config sha256:2da0cac920957833465016f88e568ca3b79c6bdd5df0498cddcb1f4998a2bbf1 done
+#16 exporting attestation manifest sha256:8135ed0dc334ab433f69ff7f01eadf35c52d47413ba4f95db65668470b395b98 0.0s done
+#16 exporting manifest list sha256:f4fd20f3ccebad0dc15af9ca649c506718e9651a907b7de144de286bf5de9fb4 done
+#16 naming to docker.io/library/jawad_closure_6e6fedcc_120706-migrate:latest done
+#16 unpacking to docker.io/library/jawad_closure_6e6fedcc_120706-migrate:latest
+#16 unpacking to docker.io/library/jawad_closure_6e6fedcc_120706-migrate:latest 3.2s done
+#16 DONE 16.2s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+CREATE TABLE
+BEGIN
+CREATE EXTENSION
+CREATE TYPE
+CREATE TYPE
+CREATE TYPE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+INSERT 0 1
+COMMIT
+Migration APPLIED 001_initial.sql
+BEGIN
+CREATE FUNCTION
+CREATE TRIGGER
+CREATE TRIGGER
+REVOKE
+REVOKE
+INSERT 0 1
+COMMIT
+Migration APPLIED 002_security.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 1
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+INSERT 0 1
+COMMIT
+Migration APPLIED 003_operations.sql
+BEGIN
+CREATE TABLE
+CREATE TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+CREATE INDEX
+INSERT 0 1
+COMMIT
+Migration APPLIED 004_reliability.sql
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+INSERT 0 1
+COMMIT
+Migration APPLIED 005_monitor_controls.sql
+BEGIN
+ALTER TABLE
+ALTER TABLE
+INSERT 0 1
+COMMIT
+Migration APPLIED 006_quote_delivery_fields.sql
+BEGIN
+ALTER TABLE
+ALTER TABLE
+INSERT 0 1
+COMMIT
+Migration APPLIED 007_group_monitor_categories.sql
+BEGIN
+ALTER TABLE
+INSERT 0 1
+COMMIT
+Migration APPLIED 008_job_operations.sql
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+INSERT 0 1
+COMMIT
+Migration APPLIED 009_partner_operations.sql
+BEGIN
+ALTER TABLE
+CREATE INDEX
+INSERT 0 1
+COMMIT
+Migration APPLIED 010_partner_fraud_controls.sql
+BEGIN
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+psql:/tmp/jawad-migrations-KKbkEg/011_acceptance_evidence.sql:5: NOTICE:  constraint "completed_requires_acceptance" of relation "jobs" does not exist, skipping
+ALTER TABLE
+CREATE INDEX
+INSERT 0 1
+COMMIT
+Migration APPLIED 011_acceptance_evidence.sql
+BEGIN
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+psql:/tmp/jawad-migrations-KKbkEg/012_sensitive_data_and_attribution.sql:8: NOTICE:  constraint "leads_recommended_package_check" of relation "leads" does not exist, skipping
+ALTER TABLE
+CREATE INDEX
+CREATE INDEX
+INSERT 0 1
+COMMIT
+Migration APPLIED 012_sensitive_data_and_attribution.sql
+BEGIN
+ALTER TABLE
+psql:/tmp/jawad-migrations-KKbkEg/013_financial_integrity.sql:2: NOTICE:  constraint "quotes_currency_network_pair" of relation "quotes" does not exist, skipping
+ALTER TABLE
+psql:/tmp/jawad-migrations-KKbkEg/013_financial_integrity.sql:7: NOTICE:  constraint "invoices_token_network_pair" of relation "invoices" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+psql:/tmp/jawad-migrations-KKbkEg/013_financial_integrity.sql:12: NOTICE:  constraint "invoices_reference_usd_nonnegative" of relation "invoices" does not exist, skipping
+ALTER TABLE
+INSERT 0 1
+COMMIT
+Migration APPLIED 013_financial_integrity.sql

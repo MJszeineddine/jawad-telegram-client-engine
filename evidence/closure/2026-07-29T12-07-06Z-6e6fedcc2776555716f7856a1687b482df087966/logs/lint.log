@@ -1,0 +1,5 @@
+
+> jawad-telegram-client-engine@0.1.0 lint /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+> node --experimental-strip-types scripts/lint.ts
+
+Lint PASS

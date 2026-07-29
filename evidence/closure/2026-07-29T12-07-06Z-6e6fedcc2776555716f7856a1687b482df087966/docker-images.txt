@@ -1,0 +1,7 @@
+CONTAINER                                  REPOSITORY                              TAG                 PLATFORM            IMAGE ID            SIZE                CREATED
+jawad_closure_6e6fedcc_120706-bot-1        jawad_closure_6e6fedcc_120706-bot       latest              linux/arm64         b9497215748b        220MB               10 seconds ago
+jawad_closure_6e6fedcc_120706-migrate-1    jawad_closure_6e6fedcc_120706-migrate   latest              linux/arm64         c5e8388d8226        220MB               10 seconds ago
+jawad_closure_6e6fedcc_120706-postgres-1   postgres                                17-alpine           linux/arm64/v8      742f40ea20b9        115MB               11 days ago
+jawad_closure_6e6fedcc_120706-redis-1      redis                                   8-alpine            linux/arm64/v8      8096655e4377        37.3MB              18 hours ago
+jawad_closure_6e6fedcc_120706-web-1        jawad_closure_6e6fedcc_120706-web       latest              linux/arm64         1ed1f1ba4389        220MB               10 seconds ago
+jawad_closure_6e6fedcc_120706-worker-1     jawad_closure_6e6fedcc_120706-worker    latest              linux/arm64         774ad66189db        220MB               10 seconds ago

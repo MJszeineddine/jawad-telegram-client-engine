@@ -1,0 +1,279 @@
+name: jawad_closure_6e6fedcc_120706
+services:
+  bot:
+    build:
+      context: /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+      dockerfile: Dockerfile
+    command:
+      - node
+      - --experimental-strip-types
+      - apps/bot/src/index.ts
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+        required: true
+      redis:
+        condition: service_healthy
+        required: true
+    environment:
+      ADMIN_PASSWORD_SHA256: [REDACTED]
+      ADMIN_SESSION_SECRET: [REDACTED]
+      APP_BASE_URL: http://localhost:3100
+      ATTACHMENT_MAX_BYTES: "10485760"
+      ATTACHMENT_ROOT: /app/runtime/uploads
+      BASE_CHAIN_ID: "8453"
+      BOT_WEBHOOK_PORT: "3311"
+      DATA_ENCRYPTION_KEY: [REDACTED]
+      DATA_RETENTION_DAYS: "90"
+      DATABASE_URL: [REDACTED]
+      DEMO_MODE: "false"
+      LOCAL_WEB_PORT: "3100"
+      MINI_APP_URL: ""
+      NODE_ENV: development
+      PAYMENT_CONFIRMATIONS_BASE: "12"
+      PAYMENT_CONFIRMATIONS_TRON: "20"
+      POSTGRES_HOST_PORT: "55432"
+      REDIS_URL: [REDACTED]
+      TELEGRAM_ADMIN_CHAT_ID: [REDACTED]
+      TELEGRAM_BOT_TOKEN: [REDACTED]
+      TELEGRAM_BOT_USERNAME: JawadDevDeskBot
+      TELEGRAM_WEBHOOK_SECRET: [REDACTED]
+      TRON_API_BASE_URL: https://api.trongrid.io
+      TRUSTED_PROXY_HEADER: x-real-ip
+      WORKER_HEALTH_PORT: "3200"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget -qO- http://127.0.0.1:3311/health >/dev/null
+      timeout: 5s
+      interval: 10s
+      retries: 12
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 3311
+        published: "3311"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: uploads_data
+        target: /app/runtime/uploads
+        volume: {}
+  migrate:
+    build:
+      context: /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+      dockerfile: Dockerfile
+    command:
+      - node
+      - --experimental-strip-types
+      - scripts/migrate.ts
+    depends_on:
+      postgres:
+        condition: service_healthy
+        required: true
+    environment:
+      ADMIN_PASSWORD_SHA256: [REDACTED]
+      ADMIN_SESSION_SECRET: [REDACTED]
+      APP_BASE_URL: http://localhost:3310
+      ATTACHMENT_MAX_BYTES: "10485760"
+      ATTACHMENT_ROOT: /app/runtime/uploads
+      BASE_CHAIN_ID: "8453"
+      DATA_ENCRYPTION_KEY: [REDACTED]
+      DATA_RETENTION_DAYS: "90"
+      DATABASE_URL: [REDACTED]
+      DEMO_MODE: "true"
+      MINI_APP_URL: ""
+      NODE_ENV: development
+      PAYMENT_CONFIRMATIONS_BASE: "12"
+      PAYMENT_CONFIRMATIONS_TRON: "20"
+      REDIS_URL: [REDACTED]
+      TELEGRAM_ADMIN_CHAT_ID: [REDACTED]
+      TELEGRAM_BOT_TOKEN: [REDACTED]
+      TELEGRAM_BOT_USERNAME: JawadDevDeskBot
+      TELEGRAM_WEBHOOK_SECRET: [REDACTED]
+      TRON_API_BASE_URL: https://api.trongrid.io
+      TRUSTED_PROXY_HEADER: x-real-ip
+    networks:
+      default: null
+    restart: "no"
+  postgres:
+    environment:
+      POSTGRES_DB: jawad_engine
+      POSTGRES_PASSWORD: jawad
+      POSTGRES_USER: jawad
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U jawad -d jawad_engine
+      timeout: 5s
+      interval: 5s
+      retries: 20
+    image: postgres:17-alpine
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 5432
+        published: "56432"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: postgres_data
+        target: /var/lib/postgresql/data
+        volume: {}
+  redis:
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      timeout: 3s
+      interval: 5s
+      retries: 20
+    image: redis:8-alpine
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 6379
+        published: "56379"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: redis_data
+        target: /data
+        volume: {}
+  web:
+    build:
+      context: /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+      dockerfile: Dockerfile
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+        required: true
+      redis:
+        condition: service_healthy
+        required: true
+    environment:
+      ADMIN_PASSWORD_SHA256: [REDACTED]
+      ADMIN_SESSION_SECRET: [REDACTED]
+      APP_BASE_URL: http://localhost:3310
+      ATTACHMENT_MAX_BYTES: "10485760"
+      ATTACHMENT_ROOT: /app/runtime/uploads
+      BASE_CHAIN_ID: "8453"
+      DATA_ENCRYPTION_KEY: [REDACTED]
+      DATA_RETENTION_DAYS: "90"
+      DATABASE_URL: [REDACTED]
+      DEMO_MODE: "true"
+      MINI_APP_URL: ""
+      NODE_ENV: development
+      PAYMENT_CONFIRMATIONS_BASE: "12"
+      PAYMENT_CONFIRMATIONS_TRON: "20"
+      REDIS_URL: [REDACTED]
+      TELEGRAM_ADMIN_CHAT_ID: [REDACTED]
+      TELEGRAM_BOT_TOKEN: [REDACTED]
+      TELEGRAM_BOT_USERNAME: JawadDevDeskBot
+      TELEGRAM_WEBHOOK_SECRET: [REDACTED]
+      TRON_API_BASE_URL: https://api.trongrid.io
+      TRUSTED_PROXY_HEADER: x-real-ip
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget -qO- http://127.0.0.1:3000/api/health >/dev/null
+      timeout: 5s
+      interval: 10s
+      retries: 12
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 3000
+        published: "3310"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: uploads_data
+        target: /app/runtime/uploads
+        volume: {}
+  worker:
+    build:
+      context: /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+      dockerfile: Dockerfile
+    command:
+      - node
+      - --experimental-strip-types
+      - apps/worker/src/index.ts
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+        required: true
+      redis:
+        condition: service_healthy
+        required: true
+    environment:
+      ADMIN_PASSWORD_SHA256: [REDACTED]
+      ADMIN_SESSION_SECRET: [REDACTED]
+      APP_BASE_URL: http://localhost:3310
+      ATTACHMENT_MAX_BYTES: "10485760"
+      ATTACHMENT_ROOT: /app/runtime/uploads
+      BASE_CHAIN_ID: "8453"
+      DATA_ENCRYPTION_KEY: [REDACTED]
+      DATA_RETENTION_DAYS: "90"
+      DATABASE_URL: [REDACTED]
+      DEMO_MODE: "true"
+      MINI_APP_URL: ""
+      NODE_ENV: development
+      PAYMENT_CONFIRMATIONS_BASE: "12"
+      PAYMENT_CONFIRMATIONS_TRON: "20"
+      REDIS_URL: [REDACTED]
+      TELEGRAM_ADMIN_CHAT_ID: [REDACTED]
+      TELEGRAM_BOT_TOKEN: [REDACTED]
+      TELEGRAM_BOT_USERNAME: JawadDevDeskBot
+      TELEGRAM_WEBHOOK_SECRET: [REDACTED]
+      TRON_API_BASE_URL: https://api.trongrid.io
+      TRUSTED_PROXY_HEADER: x-real-ip
+      WORKER_HEALTH_PORT: "3320"
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget -qO- http://127.0.0.1:3320/health >/dev/null
+      timeout: 5s
+      interval: 10s
+      retries: 12
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 3320
+        published: "3320"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: uploads_data
+        target: /app/runtime/uploads
+        volume: {}
+networks:
+  default:
+    name: jawad_closure_6e6fedcc_120706_default
+volumes:
+  postgres_data:
+    name: jawad_closure_6e6fedcc_120706_postgres_data
+  redis_data:
+    name: jawad_closure_6e6fedcc_120706_redis_data
+  uploads_data:
+    name: jawad_closure_6e6fedcc_120706_uploads_data

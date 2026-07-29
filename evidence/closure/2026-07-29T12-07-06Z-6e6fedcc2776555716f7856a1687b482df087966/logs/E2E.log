@@ -1,0 +1,5 @@
+
+> jawad-telegram-client-engine@0.1.0 test:e2e /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+> node --experimental-strip-types tests/e2e/full-flow.ts
+
+E2E PASS: intake/qualification/approval/invoice/mock payment/paid job/delivery/follow-up/group signal

@@ -1,0 +1,4 @@
+backup_sha256=10edee0090bf76dc5fb7870d5da7b61ccca9eb3962aaa53b396d106ab349fbb8
+backup_size_bytes=58408
+restore_database=jawad_engine_restore_6e6fedcc
+archive_retained=false

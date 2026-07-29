@@ -1,0 +1,32 @@
+name	status	exit_code	seconds	log
+clean repository state	PASS	0	0	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/clean_repository_state.log
+clean staged state	PASS	0	0	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/clean_staged_state.log
+HEAD matches origin/main	PASS	0	0	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/HEAD_matches_origin_main.log
+frozen pnpm installation	PASS	0	0	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/frozen_pnpm_installation.log
+lint	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/lint.log
+core typecheck	PASS	0	2	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/core_typecheck.log
+web typecheck	PASS	0	2	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/web_typecheck.log
+unit tests	PASS	0	0	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/unit_tests.log
+start isolated postgres and redis	PASS	0	7	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/start_isolated_postgres_and_redis.log
+migration from empty database	PASS	0	69	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/migration_from_empty_database.log
+idempotent migration repeat	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/idempotent_migration_repeat.log
+deterministic seed	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/deterministic_seed.log
+live PostgreSQL integration tests no skip	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/live_PostgreSQL_integration_tests_no_skip.log
+E2E	PASS	0	0	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/E2E.log
+Next.js production build	PASS	0	6	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/Next.js_production_build.log
+Playwright chromium install	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/Playwright_chromium_install.log
+Playwright mobile desktop browser tests	PASS	0	3	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/Playwright_mobile_desktop_browser_tests.log
+accessibility smoke and overflow	PASS	0	2	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/accessibility_smoke_and_overflow.log
+dependency policy audit	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/dependency_policy_audit.log
+pnpm registry audit high	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/pnpm_registry_audit_high.log
+secret scan	PASS	0	0	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/secret_scan.log
+Gitleaks history redacted	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/Gitleaks_history_redacted.log
+Docker Compose config	PASS	0	0	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/Docker_Compose_config.log
+Docker image build	PASS	0	65	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/Docker_image_build.log
+container startup	PASS	0	2	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/container_startup.log
+real health checks	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/real_health_checks.log
+database backup	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/database_backup.log
+create disposable restore database	PASS	0	1	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/create_disposable_restore_database.log
+restore into isolated disposable database	PASS	0	0	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/restore_into_isolated_disposable_database.log
+restart validation	PASS	0	11	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/restart_validation.log
+post-restart health validation	PASS	0	0	evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/logs/post-restart_health_validation.log

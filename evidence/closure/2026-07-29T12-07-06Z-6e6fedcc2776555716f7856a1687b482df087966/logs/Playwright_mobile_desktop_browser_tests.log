@@ -1,0 +1,21 @@
+
+> jawad-telegram-client-engine@0.1.0 test:browser /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+> playwright test
+
+[WebServer] (node:75964) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:75984) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:75985) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [mobile-chromium] › tests/browser/mobile.spec.ts:10:1 › safe demo has no horizontal overflow and exposes privacy warnings (372ms)
+  ✓  2 [mobile-chromium] › tests/browser/mobile.spec.ts:19:1 › mock lead reaches completed state through the visible workflow (407ms)
+(node:76096) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [desktop-chromium] › tests/browser/mobile.spec.ts:10:1 › safe demo has no horizontal overflow and exposes privacy warnings (170ms)
+  ✓  4 [desktop-chromium] › tests/browser/mobile.spec.ts:19:1 › mock lead reaches completed state through the visible workflow (374ms)
+
+  4 passed (2.7s)

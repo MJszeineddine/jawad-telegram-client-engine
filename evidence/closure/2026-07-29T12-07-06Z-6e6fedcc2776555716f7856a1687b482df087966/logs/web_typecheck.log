@@ -1,0 +1,3 @@
+
+> jawad-telegram-client-engine@0.1.0 typecheck:web /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+> tsc -p tsconfig.web-static.json --noEmit

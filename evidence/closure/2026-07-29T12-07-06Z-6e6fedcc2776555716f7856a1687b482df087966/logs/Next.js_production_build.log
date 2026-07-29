@@ -1,0 +1,66 @@
+
+> @jawad/web@0.1.0 build /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine/apps/web
+> next build
+
+▲ Next.js 16.2.12 (Turbopack)
+- Experiments (use with caution):
+  ✓ typedEnv
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1574ms
+  Running TypeScript ...
+  Finished TypeScript in 1874ms ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/15) ...
+  Generating static pages using 11 workers (3/15)
+  Generating static pages using 11 workers (7/15)
+  Generating static pages using 11 workers (11/15)
+✓ Generating static pages using 11 workers (15/15) in 115ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /admin
+├ ƒ /admin/jobs/[id]
+├ ƒ /admin/leads/[id]
+├ ○ /admin/login
+├ ƒ /admin/partners
+├ ƒ /admin/privacy
+├ ƒ /admin/settings
+├ ƒ /api/admin/attachments/[id]
+├ ƒ /api/admin/invoices/[id]/manual-confirm
+├ ƒ /api/admin/jobs/[id]/action
+├ ƒ /api/admin/jobs/[id]/attachments
+├ ƒ /api/admin/jobs/[id]/details
+├ ƒ /api/admin/leads/[id]/action
+├ ƒ /api/admin/leads/[id]/messages
+├ ƒ /api/admin/leads/[id]/quote
+├ ƒ /api/admin/login
+├ ƒ /api/admin/logout
+├ ƒ /api/admin/partners
+├ ƒ /api/admin/privacy/deletions/[id]/complete
+├ ƒ /api/admin/quotes/[id]/invoice
+├ ƒ /api/admin/referrals/[id]/payout
+├ ƒ /api/admin/settings/capacity
+├ ƒ /api/admin/settings/groups
+├ ƒ /api/attachments
+├ ƒ /api/client/attachments/[id]
+├ ƒ /api/health
+├ ƒ /api/intake
+├ ƒ /api/invoices/[id]
+├ ƒ /api/invoices/[id]/qr
+├ ƒ /api/invoices/[id]/receipt
+├ ƒ /api/invoices/[id]/verify
+├ ƒ /api/jobs/[id]/accept
+├ ƒ /api/privacy/deletion
+├ ƒ /api/telegram/validate
+├ ƒ /api/testimonials
+├ ƒ /api/tickets/[id]
+├ ƒ /api/tickets/[id]/messages
+├ ○ /mini-app
+└ ƒ /mini-app/[section]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand

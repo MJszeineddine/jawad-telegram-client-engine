@@ -1,0 +1,5 @@
+
+> jawad-telegram-client-engine@0.1.0 audit:deps /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+> node --experimental-strip-types scripts/dependency-audit.ts
+
+Dependency policy PASS. Registry vulnerability audit runs in connected CI.

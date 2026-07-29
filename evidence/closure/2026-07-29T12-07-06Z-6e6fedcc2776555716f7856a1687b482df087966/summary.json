@@ -1,0 +1,21 @@
+{
+  "ok": true,
+  "commit": "6e6fedcc2776555716f7856a1687b482df087966",
+  "utc": "2026-07-29T12-07-06Z",
+  "githubActions": "BLOCKED_EXTERNAL -- runner unavailable before job execution",
+  "independentClosureCi": "PASS",
+  "tests": {
+    "nodeTestCount": 93,
+    "browserTestCount": 4
+  },
+  "docker": {
+    "composeProject": "jawad_closure_6e6fedcc_120706",
+    "imageRows": 6
+  },
+  "evidence": {
+    "commandMatrix": "command-matrix.tsv",
+    "environmentVersions": "environment-versions.txt",
+    "dockerImages": "docker-images.txt",
+    "health": "health.jsonl"
+  }
+}

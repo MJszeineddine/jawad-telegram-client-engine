@@ -1,0 +1,5 @@
+
+> jawad-telegram-client-engine@0.1.0 db:seed /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+> node --env-file-if-exists=.env --experimental-strip-types scripts/seed.ts
+
+{"ok":true,"seed":"synthetic_demo_seed_v1","leadId":"489d12a2-c751-4140-85b9-000f9690f6fd","containsRealClientData":false}

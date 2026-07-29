@@ -1,0 +1,3 @@
+DROP DATABASE
+NOTICE:  database "jawad_engine_restore_6e6fedcc" does not exist, skipping
+CREATE DATABASE

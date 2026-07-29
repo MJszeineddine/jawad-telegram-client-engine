@@ -1,0 +1,5 @@
+
+> jawad-telegram-client-engine@0.1.0 db:restore-test /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+> node --env-file-if-exists=.env --experimental-strip-types scripts/restore-test.ts -- /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine/evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/backups/jawad-client-engine-2026-07-29T12-09-56-582Z.dump
+
+{"ok":true,"archive":"/Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine/evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/backups/jawad-client-engine-2026-07-29T12-09-56-582Z.dump","targetVerified":true,"sourceDatabaseProtected":true,"client":"docker-compose-postgres"}

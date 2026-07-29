@@ -1,0 +1,16 @@
+ Container jawad_closure_6e6fedcc_120706-postgres-1  Running
+NOTICE:  relation "schema_migrations" already exists, skipping
+CREATE TABLE
+Migration SKIP 001_initial.sql
+Migration SKIP 002_security.sql
+Migration SKIP 003_operations.sql
+Migration SKIP 004_reliability.sql
+Migration SKIP 005_monitor_controls.sql
+Migration SKIP 006_quote_delivery_fields.sql
+Migration SKIP 007_group_monitor_categories.sql
+Migration SKIP 008_job_operations.sql
+Migration SKIP 009_partner_operations.sql
+Migration SKIP 010_partner_fraud_controls.sql
+Migration SKIP 011_acceptance_evidence.sql
+Migration SKIP 012_sensitive_data_and_attribution.sql
+Migration SKIP 013_financial_integrity.sql

@@ -219,7 +219,7 @@ run_step "dependency policy audit" corepack pnpm audit:deps
 run_step "pnpm registry audit high" corepack pnpm audit --audit-level high
 run_step "secret scan" corepack pnpm secret:scan
 run_step "Gitleaks history redacted" docker run --rm -v "$ROOT:/repo" zricethezav/gitleaks:v8.28.0 detect --source=/repo --no-banner --redact --exit-code=1
-run_step "Docker Compose config" docker compose config
+run_step "Docker Compose config" bash -o pipefail -c 'docker compose config | sed -E "s#(ADMIN_PASSWORD_SHA256|ADMIN_SESSION_SECRET|DATA_ENCRYPTION_KEY|DATABASE_URL|REDIS_URL|TELEGRAM_ADMIN_CHAT_ID|TELEGRAM_BOT_TOKEN|TELEGRAM_WEBHOOK_SECRET): .*#\\1: [REDACTED]#g"'
 run_step "Docker image build" docker compose build
 
 run_step "container startup" docker compose up -d migrate web worker bot

@@ -1,0 +1,26 @@
+
+> jawad-telegram-client-engine@0.1.0 test:integration /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+> node --env-file-if-exists=.env --experimental-strip-types --test tests/integration/*.test.ts
+
+TAP version 13
+# Subtest: partner lead reaches completed job and commission ledger
+ok 1 - partner lead reaches completed job and commission ledger
+  ---
+  duration_ms: 2.534917
+  type: 'test'
+  ...
+# Subtest: PostgreSQL payment confirmation is concurrent, idempotent, and transaction-unique
+ok 2 - PostgreSQL payment confirmation is concurrent, idempotent, and transaction-unique
+  ---
+  duration_ms: 176.158666
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 307.120833

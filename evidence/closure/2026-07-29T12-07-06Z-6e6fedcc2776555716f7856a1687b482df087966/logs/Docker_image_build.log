@@ -1,0 +1,247 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 2.22kB done
+#1 DONE 0.0s
+
+#2 [worker internal] load build definition from Dockerfile
+#2 transferring dockerfile: 528B done
+#2 DONE 0.0s
+
+#3 [bot internal] load metadata for docker.io/library/node:22-alpine
+#3 DONE 1.2s
+
+#4 [migrate internal] load .dockerignore
+#4 transferring context: 171B done
+#4 DONE 0.0s
+
+#5 [migrate build 1/6] FROM docker.io/library/node:22-alpine@sha256:16e22a550f3863206a3f701448c45f7912c6896a62de43add43bb9c86130c3e2
+#5 resolve docker.io/library/node:22-alpine@sha256:16e22a550f3863206a3f701448c45f7912c6896a62de43add43bb9c86130c3e2 0.0s done
+#5 DONE 0.0s
+
+#6 [web internal] load build context
+#6 transferring context: 47.67kB 0.0s done
+#6 DONE 0.0s
+
+#7 [worker build 2/6] RUN corepack enable
+#7 CACHED
+
+#8 [worker build 3/6] WORKDIR /app
+#8 CACHED
+
+#9 [migrate build 4/6] COPY . .
+#9 DONE 0.1s
+
+#10 [worker build 5/6] RUN pnpm install --frozen-lockfile
+#10 0.176 ! Corepack is about to download https://registry.npmjs.org/pnpm/-/pnpm-10.14.0.tgz
+#10 2.418 Scope: all 13 workspace projects
+#10 2.457 Lockfile is up to date, resolution step is skipped
+#10 2.470 Progress: resolved 1, reused 0, downloaded 0, added 0
+#10 2.513 Packages: +96
+#10 2.513 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#10 3.205
+#10 3.205    ╭───────────────────────────────────────────────╮
+#10 3.205    │                                               │
+#10 3.205    │     Update available! 10.14.0 → 11.17.0.      │
+#10 3.205    │     Changelog: https://pnpm.io/v/11.17.0      │
+#10 3.205    │   To update, run: corepack use pnpm@11.17.0   │
+#10 3.205    │                                               │
+#10 3.205    ╰───────────────────────────────────────────────╯
+#10 3.205
+#10 3.471 Progress: resolved 96, reused 0, downloaded 29, added 29
+#10 4.470 Progress: resolved 96, reused 0, downloaded 50, added 50
+#10 5.472 Progress: resolved 96, reused 0, downloaded 70, added 70
+#10 6.473 Progress: resolved 96, reused 0, downloaded 78, added 78
+#10 7.475 Progress: resolved 96, reused 0, downloaded 88, added 88
+#10 8.476 Progress: resolved 96, reused 0, downloaded 89, added 89
+#10 9.478 Progress: resolved 96, reused 0, downloaded 90, added 90
+#10 10.48 Progress: resolved 96, reused 0, downloaded 91, added 91
+#10 16.27 Progress: resolved 96, reused 0, downloaded 92, added 91
+#10 17.28 Progress: resolved 96, reused 0, downloaded 92, added 92
+#10 20.18 Progress: resolved 96, reused 0, downloaded 93, added 92
+#10 21.18 Progress: resolved 96, reused 0, downloaded 94, added 94
+#10 24.44 Progress: resolved 96, reused 0, downloaded 95, added 94
+#10 25.44 Progress: resolved 96, reused 0, downloaded 95, added 95
+#10 31.18 Progress: resolved 96, reused 0, downloaded 96, added 95
+#10 31.18 Progress: resolved 96, reused 0, downloaded 96, added 96, done
+#10 31.29
+#10 31.29 dependencies:
+#10 31.29 + postgres 3.4.9
+#10 31.29
+#10 31.29 devDependencies:
+#10 31.29 + @playwright/test 1.61.1
+#10 31.29 + @types/node 22.15.30
+#10 31.29 + typescript 5.9.3
+#10 31.29
+#10 31.29 ╭ Warning ─────────────────────────────────────────────────────────────────────╮
+#10 31.29 │                                                                              │
+#10 31.29 │   Ignored build scripts: msgpackr-extract.                                   │
+#10 31.29 │   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+#10 31.29 │   to run scripts.                                                            │
+#10 31.29 │                                                                              │
+#10 31.29 ╰──────────────────────────────────────────────────────────────────────────────╯
+#10 31.29
+#10 31.34 Done in 29.1s using pnpm v10.14.0
+#10 DONE 31.6s
+
+#11 [migrate build 6/6] RUN pnpm --filter @jawad/web build
+#11 0.490
+#11 0.490 > @jawad/web@0.1.0 build /app/apps/web
+#11 0.490 > next build
+#11 0.490
+#11 0.787 Attention: Next.js now collects completely anonymous telemetry regarding usage.
+#11 0.787 This information is used to shape Next.js' roadmap and prioritize features.
+#11 0.787 You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+#11 0.787 https://nextjs.org/telemetry
+#11 0.787
+#11 0.801 ▲ Next.js 16.2.12 (Turbopack)
+#11 0.801 - Experiments (use with caution):
+#11 0.801   ✓ typedEnv
+#11 0.801
+#11 0.842   Creating an optimized production build ...
+#11 2.628 ✓ Compiled successfully in 1642ms
+#11 2.638   Running TypeScript ...
+#11 5.304   Finished TypeScript in 2.7s ...
+#11 5.308   Collecting page data using 11 workers ...
+#11 5.761   Generating static pages using 11 workers (0/15) ...
+#11 5.797   Generating static pages using 11 workers (3/15)
+#11 5.868   Generating static pages using 11 workers (7/15)
+#11 5.876   Generating static pages using 11 workers (11/15)
+#11 5.906 ✓ Generating static pages using 11 workers (15/15) in 145ms
+#11 5.912   Finalizing page optimization ...
+#11 6.117
+#11 6.120 Route (app)
+#11 6.120 ┌ ○ /
+#11 6.120 ├ ○ /_not-found
+#11 6.120 ├ ƒ /admin
+#11 6.120 ├ ƒ /admin/jobs/[id]
+#11 6.120 ├ ƒ /admin/leads/[id]
+#11 6.120 ├ ○ /admin/login
+#11 6.120 ├ ƒ /admin/partners
+#11 6.120 ├ ƒ /admin/privacy
+#11 6.120 ├ ƒ /admin/settings
+#11 6.120 ├ ƒ /api/admin/attachments/[id]
+#11 6.120 ├ ƒ /api/admin/invoices/[id]/manual-confirm
+#11 6.120 ├ ƒ /api/admin/jobs/[id]/action
+#11 6.120 ├ ƒ /api/admin/jobs/[id]/attachments
+#11 6.120 ├ ƒ /api/admin/jobs/[id]/details
+#11 6.120 ├ ƒ /api/admin/leads/[id]/action
+#11 6.120 ├ ƒ /api/admin/leads/[id]/messages
+#11 6.120 ├ ƒ /api/admin/leads/[id]/quote
+#11 6.120 ├ ƒ /api/admin/login
+#11 6.120 ├ ƒ /api/admin/logout
+#11 6.120 ├ ƒ /api/admin/partners
+#11 6.120 ├ ƒ /api/admin/privacy/deletions/[id]/complete
+#11 6.120 ├ ƒ /api/admin/quotes/[id]/invoice
+#11 6.120 ├ ƒ /api/admin/referrals/[id]/payout
+#11 6.120 ├ ƒ /api/admin/settings/capacity
+#11 6.120 ├ ƒ /api/admin/settings/groups
+#11 6.120 ├ ƒ /api/attachments
+#11 6.120 ├ ƒ /api/client/attachments/[id]
+#11 6.120 ├ ƒ /api/health
+#11 6.120 ├ ƒ /api/intake
+#11 6.120 ├ ƒ /api/invoices/[id]
+#11 6.120 ├ ƒ /api/invoices/[id]/qr
+#11 6.120 ├ ƒ /api/invoices/[id]/receipt
+#11 6.120 ├ ƒ /api/invoices/[id]/verify
+#11 6.120 ├ ƒ /api/jobs/[id]/accept
+#11 6.120 ├ ƒ /api/privacy/deletion
+#11 6.120 ├ ƒ /api/telegram/validate
+#11 6.120 ├ ƒ /api/testimonials
+#11 6.120 ├ ƒ /api/tickets/[id]
+#11 6.120 ├ ƒ /api/tickets/[id]/messages
+#11 6.120 ├ ○ /mini-app
+#11 6.120 └ ƒ /mini-app/[section]
+#11 6.120
+#11 6.120
+#11 6.120 ○  (Static)   prerendered as static content
+#11 6.120 ƒ  (Dynamic)  server-rendered on demand
+#11 6.120
+#11 DONE 6.4s
+
+#12 [bot runtime 2/5] RUN apk add --no-cache postgresql-client
+#12 CACHED
+
+#13 [bot runtime 3/5] WORKDIR /app
+#13 CACHED
+
+#12 [worker runtime 2/5] RUN apk add --no-cache postgresql-client
+#12 CACHED
+
+#14 [bot runtime 4/5] COPY --from=build --chown=node:node /app /app
+#14 DONE 2.1s
+
+#15 [migrate runtime 5/5] RUN mkdir -p /app/runtime/uploads && chown -R node:node /app/runtime
+#15 DONE 0.2s
+
+#16 [bot] exporting to image
+#16 exporting layers
+#16 ...
+
+#17 [web] exporting to image
+#17 ...
+
+#18 [worker] exporting to image
+#18 ...
+
+#19 [migrate] exporting to image
+#19 ...
+
+#16 [bot] exporting to image
+#16 exporting layers 13.1s done
+#16 exporting manifest sha256:2c86b065e2ed0e30d53c15105b11dc977e94b7f6ba59b37ade07c45cae3e0043 0.0s done
+#16 exporting config sha256:b86dbf533b942a03feb42873de4c5760c6b407cc6fe03d6e351d4223419b01c2 0.0s done
+#16 exporting attestation manifest sha256:357e03390897ee2fde4d42f4dd3ac8ac326945700c670c7126a1ff636d8ef900 0.0s done
+#16 exporting manifest list sha256:b9497215748be7a99053e4e39bca491400f3ea27d5a0cd7543e648eec5dfa7a5 0.0s done
+#16 naming to docker.io/library/jawad_closure_6e6fedcc_120706-bot:latest done
+#16 unpacking to docker.io/library/jawad_closure_6e6fedcc_120706-bot:latest
+#16 ...
+
+#18 [worker] exporting to image
+#18 exporting layers 13.1s done
+#18 exporting manifest sha256:d633d7c574664f71c288d56f04d234e3f1a31c4fd987203f246dfc352cff3232 0.0s done
+#18 exporting config sha256:f9d2c24367bdf8b088b0d06e4ea44c4d43abfe2635877b26f9a4115572013a36 0.0s done
+#18 exporting attestation manifest sha256:9bc880751e91447d4596077fc6917277ed80ffa737f5a9e325d589e46c9ef1d9 0.0s done
+#18 exporting manifest list sha256:774ad66189db35ea35f143c5d0cec88e31e12475cfc167a70aede39bdc243ae8 0.0s done
+#18 naming to docker.io/library/jawad_closure_6e6fedcc_120706-worker:latest done
+#18 unpacking to docker.io/library/jawad_closure_6e6fedcc_120706-worker:latest
+#18 unpacking to docker.io/library/jawad_closure_6e6fedcc_120706-worker:latest 7.1s done
+#18 DONE 20.4s
+
+#19 [migrate] exporting to image
+#19 exporting layers 13.1s done
+#19 exporting manifest sha256:a17916011e6d4a6b66dcbc68371d34d8345b65d24ec501cc3390fa3918a86a7d 0.0s done
+#19 exporting config sha256:409474a448ee0db6e9cb89dbf7a3f9a1539b106b486523ab6ae8bb7341a00f0b 0.0s done
+#19 exporting attestation manifest sha256:f80eae18fc8cb39624f15a2273b20e4ce86b319a5f0328593c1c3340fc2a12d2 0.0s done
+#19 exporting manifest list sha256:c5e8388d82260fbdf7444a285a912a1783d5becf971e304990da3ad2bd6665b1 0.0s done
+#19 naming to docker.io/library/jawad_closure_6e6fedcc_120706-migrate:latest done
+#19 unpacking to docker.io/library/jawad_closure_6e6fedcc_120706-migrate:latest 7.1s done
+#19 DONE 20.4s
+
+#17 [web] exporting to image
+#17 exporting layers 13.1s done
+#17 exporting manifest sha256:e0f86b2470907bd6193f8e78f7c480eb23529f4bf641b59ebd6f17a173414dd3 0.0s done
+#17 exporting config sha256:e391dd1a0818a20a95ea87634bb88340babd98f4ed81bc0f69260a9d67827419 0.0s done
+#17 exporting attestation manifest sha256:34ff9c90d64146c7ad76e30e35b994e174e3a555b50254a98b2401fef5935189 0.0s done
+#17 exporting manifest list sha256:1ed1f1ba43891f5c600b5818ed3bb9f8afd8cdbee66c29f01c1d455545f9822d 0.0s done
+#17 naming to docker.io/library/jawad_closure_6e6fedcc_120706-web:latest done
+#17 unpacking to docker.io/library/jawad_closure_6e6fedcc_120706-web:latest 7.1s done
+#17 DONE 20.4s
+
+#16 [bot] exporting to image
+#16 unpacking to docker.io/library/jawad_closure_6e6fedcc_120706-bot:latest 7.1s done
+#16 DONE 20.4s
+
+#20 [worker] resolving provenance for metadata file
+#20 DONE 0.1s
+
+#21 [migrate] resolving provenance for metadata file
+#21 DONE 0.0s
+
+#22 [web] resolving provenance for metadata file
+#22 DONE 0.0s
+
+#23 [bot] resolving provenance for metadata file
+#23 DONE 0.1s
+ jawad_closure_6e6fedcc_120706-migrate  Built
+ jawad_closure_6e6fedcc_120706-web  Built
+ jawad_closure_6e6fedcc_120706-worker  Built
+ jawad_closure_6e6fedcc_120706-bot  Built

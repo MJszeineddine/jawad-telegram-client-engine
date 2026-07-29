@@ -1,0 +1,560 @@
+
+> jawad-telegram-client-engine@0.1.0 test /Users/mohammadzeineddine/Downloads/jawad-telegram-client-engine
+> node --experimental-strip-types --test tests/*.test.ts
+
+TAP version 13
+# Subtest: stores untrusted attachments outside public root with redacted preview
+ok 1 - stores untrusted attachments outside public root with redacted preview
+  ---
+  duration_ms: 43.647541
+  type: 'test'
+  ...
+# Subtest: rejects executable and secret-looking files
+ok 2 - rejects executable and secret-looking files
+  ---
+  duration_ms: 2.046916
+  type: 'test'
+  ...
+# Subtest: rejects files whose bytes do not match the declared type
+ok 3 - rejects files whose bytes do not match the declared type
+  ---
+  duration_ms: 1.533
+  type: 'test'
+  ...
+# Subtest: Telegram Mini App menu is configured only with a valid HTTPS URL
+ok 4 - Telegram Mini App menu is configured only with a valid HTTPS URL
+  ---
+  duration_ms: 0.727167
+  type: 'test'
+  ...
+# Subtest: local runtime scripts load .env without overriding explicit process variables
+ok 5 - local runtime scripts load .env without overriding explicit process variables
+  ---
+  duration_ms: 16.375875
+  type: 'test'
+  ...
+# Subtest: Telegram bootstrap is token-safe, pairs the owner, and launches long polling without an HTTP Mini App URL
+ok 6 - Telegram bootstrap is token-safe, pairs the owner, and launches long polling without an HTTP Mini App URL
+  ---
+  duration_ms: 6.124333
+  type: 'test'
+  ...
+# Subtest: local Docker stack avoids common host ports and binds services to loopback
+ok 7 - local Docker stack avoids common host ports and binds services to loopback
+  ---
+  duration_ms: 4.400042
+  type: 'test'
+  ...
+# Subtest: backup and restore Docker fallbacks are limited to the local Compose database
+ok 8 - backup and restore Docker fallbacks are limited to the local Compose database
+  ---
+  duration_ms: 3.70025
+  type: 'test'
+  ...
+# Subtest: live local Telegram mode validates without wallet or HTTPS deployment credentials
+ok 9 - live local Telegram mode validates without wallet or HTTPS deployment credentials
+  ---
+  duration_ms: 113.608625
+  type: 'test'
+  ...
+# Subtest: job transitions enforce the lifecycle
+ok 10 - job transitions enforce the lifecycle
+  ---
+  duration_ms: 3.466834
+  type: 'test'
+  ...
+# Subtest: capacity collects leads but blocks payment
+ok 11 - capacity collects leads but blocks payment
+  ---
+  duration_ms: 1.090458
+  type: 'test'
+  ...
+# Subtest: deep links preserve safe attribution
+ok 12 - deep links preserve safe attribution
+  ---
+  duration_ms: 0.144583
+  type: 'test'
+  ...
+# Subtest: referral attribution is first-touch, self-referral safe, and manually payable
+ok 13 - referral attribution is first-touch, self-referral safe, and manually payable
+  ---
+  duration_ms: 0.121125
+  type: 'test'
+  ...
+# Subtest: bounded JSON reader accepts valid JSON
+ok 14 - bounded JSON reader accepts valid JSON
+  ---
+  duration_ms: 53.065209
+  type: 'test'
+  ...
+# Subtest: bounded JSON reader rejects wrong content type, invalid JSON, and streamed overflow
+ok 15 - bounded JSON reader rejects wrong content type, invalid JSON, and streamed overflow
+  ---
+  duration_ms: 1.039666
+  type: 'test'
+  ...
+# Subtest: normalises confirmed TronGrid TRC20 transfer
+ok 16 - normalises confirmed TronGrid TRC20 transfer
+  ---
+  duration_ms: 0.837209
+  type: 'test'
+  ...
+# Subtest: normalises Base USDC Transfer log
+ok 17 - normalises Base USDC Transfer log
+  ---
+  duration_ms: 0.180125
+  type: 'test'
+  ...
+# Subtest: Base normaliser rejects wrong chain and missing log
+ok 18 - Base normaliser rejects wrong chain and missing log
+  ---
+  duration_ms: 0.198583
+  type: 'test'
+  ...
+# Subtest: TRON Base58Check conversion is deterministic
+ok 19 - TRON Base58Check conversion is deterministic
+  ---
+  duration_ms: 3.897167
+  type: 'test'
+  ...
+# Subtest: TronGrid provider reads a confirmed successful TRC20 transfer
+ok 20 - TronGrid provider reads a confirmed successful TRC20 transfer
+  ---
+  duration_ms: 31.747417
+  type: 'test'
+  ...
+# Subtest: Base RPC provider validates chain, receipt, transfer log, confirmations, and timestamp
+ok 21 - Base RPC provider validates chain, receipt, transfer log, confirmations, and timestamp
+  ---
+  duration_ms: 1.051417
+  type: 'test'
+  ...
+# Subtest: provider verification assigns the transaction once and remains idempotent
+ok 22 - provider verification assigns the transaction once and remains idempotent
+  ---
+  duration_ms: 0.405666
+  type: 'test'
+  ...
+# Subtest: providers reject insecure endpoints and missing transfer logs
+ok 23 - providers reject insecure endpoints and missing transfer logs
+  ---
+  duration_ms: 0.210708
+  type: 'test'
+  ...
+# Subtest: watcher candidates require exact amount, window, destination, token, and confirmations
+ok 24 - watcher candidates require exact amount, window, destination, token, and confirmations
+  ---
+  duration_ms: 0.093084
+  type: 'test'
+  ...
+# Subtest: confirms a valid transfer and is idempotent across hash casing
+ok 25 - confirms a valid transfer and is idempotent across hash casing
+  ---
+  duration_ms: 1.307208
+  type: 'test'
+  ...
+# Subtest: rejects every unsafe mismatch
+ok 26 - rejects every unsafe mismatch
+  ---
+  duration_ms: 0.142083
+  type: 'test'
+  ...
+# Subtest: prevents transaction reuse across invoices
+ok 27 - prevents transaction reuse across invoices
+  ---
+  duration_ms: 0.184375
+  type: 'test'
+  ...
+# Subtest: watcher flags ambiguity and expiry
+ok 28 - watcher flags ambiguity and expiry
+  ---
+  duration_ms: 0.134292
+  type: 'test'
+  ...
+# Subtest: formats safe payment presentation
+ok 29 - formats safe payment presentation
+  ---
+  duration_ms: 0.256291
+  type: 'test'
+  ...
+# Subtest: receipt output is printable, escaped, and evidence-addressable
+ok 30 - receipt output is printable, escaped, and evidence-addressable
+  ---
+  duration_ms: 0.265167
+  type: 'test'
+  ...
+# Subtest: qualifies a bounded defect as quick fix
+ok 31 - qualifies a bounded defect as quick fix
+  ---
+  duration_ms: 0.867042
+  type: 'test'
+  ...
+# Subtest: escalates broader work
+ok 32 - escalates broader work
+  ---
+  duration_ms: 0.084333
+  type: 'test'
+  ...
+# Subtest: rejects unsafe and pay-first requests
+ok 33 - rejects unsafe and pay-first requests
+  ---
+  duration_ms: 0.107292
+  type: 'test'
+  ...
+# Subtest: reports missing information without auto acceptance
+ok 34 - reports missing information without auto acceptance
+  ---
+  duration_ms: 0.057958
+  type: 'test'
+  ...
+# Subtest: optional enhancer cannot replace deterministic commercial decision
+ok 35 - optional enhancer cannot replace deterministic commercial decision
+  ---
+  duration_ms: 0.281041
+  type: 'test'
+  ...
+# Subtest: optional enhancer failure leaves qualification fully usable
+ok 36 - optional enhancer failure leaves qualification fully usable
+  ---
+  duration_ms: 0.279125
+  type: 'test'
+  ...
+# Subtest: admin sessions are signed, role-bound, and expire
+ok 37 - admin sessions are signed, role-bound, and expire
+  ---
+  duration_ms: 1.580625
+  type: 'test'
+  ...
+# Subtest: CSRF token is bound to the admin session
+ok 38 - CSRF token is bound to the admin session
+  ---
+  duration_ms: 0.325666
+  type: 'test'
+  ...
+# Subtest: URL and origin rules fail closed
+ok 39 - URL and origin rules fail closed
+  ---
+  duration_ms: 2.467541
+  type: 'test'
+  ...
+# Subtest: structured logs redact secret-shaped fields
+ok 40 - structured logs redact secret-shaped fields
+  ---
+  duration_ms: 1.76325
+  type: 'test'
+  ...
+# Subtest: sensitive intake JSON uses authenticated encryption
+ok 41 - sensitive intake JSON uses authenticated encryption
+  ---
+  duration_ms: 1.660417
+  type: 'test'
+  ...
+# Subtest: client payment evidence strips internal override metadata
+ok 42 - client payment evidence strips internal override metadata
+  ---
+  duration_ms: 0.123875
+  type: 'test'
+  ...
+# Subtest: secret scan follows Git tracking and ignore boundaries
+ok 43 - secret scan follows Git tracking and ignore boundaries
+  ---
+  duration_ms: 70.340916
+  type: 'test'
+  ...
+# Subtest: secret scan detects credential material in scanned files
+ok 44 - secret scan detects credential material in scanned files
+  ---
+  duration_ms: 43.94
+  type: 'test'
+  ...
+# Subtest: memory wizard store clones data, expires state, and deletes explicitly
+ok 45 - memory wizard store clones data, expires state, and deletes explicitly
+  ---
+  duration_ms: 3.49175
+  type: 'test'
+  ...
+# Subtest: validates Telegram Mini App init data
+ok 46 - validates Telegram Mini App init data
+  ---
+  duration_ms: 18.068083
+  type: 'test'
+  ...
+# Subtest: rejects a signed Telegram payload without a valid positive user id
+ok 47 - rejects a signed Telegram payload without a valid positive user id
+  ---
+  duration_ms: 0.248375
+  type: 'test'
+  ...
+# Subtest: attachment policy sanitises and blocks secrets
+ok 48 - attachment policy sanitises and blocks secrets
+  ---
+  duration_ms: 0.30025
+  type: 'test'
+  ...
+# Subtest: redacts secrets in previews
+ok 49 - redacts secrets in previews
+  ---
+  duration_ms: 0.359334
+  type: 'test'
+  ...
+# Subtest: group monitor is opt-in and notify-only scoring
+ok 50 - group monitor is opt-in and notify-only scoring
+  ---
+  duration_ms: 0.345708
+  type: 'test'
+  ...
+# Subtest: rate limiter blocks floods and reports retry
+ok 51 - rate limiter blocks floods and reports retry
+  ---
+  duration_ms: 0.089416
+  type: 'test'
+  ...
+# Subtest: demand monitor honours authorisation, threshold, quiet hours, and approved templates
+ok 52 - demand monitor honours authorisation, threshold, quiet hours, and approved templates
+  ---
+  duration_ms: 0.275916
+  type: 'test'
+  ...
+# Subtest: demand categories can be disabled without changing safety penalties
+ok 53 - demand categories can be disabled without changing safety penalties
+  ---
+  duration_ms: 0.073708
+  type: 'test'
+  ...
+# Subtest: Mini App client-message payload matches the API contract
+ok 54 - Mini App client-message payload matches the API contract
+  ---
+  duration_ms: 5.438625
+  type: 'test'
+  ...
+# Subtest: delivery acceptance and proof downloads remain Telegram-bound
+ok 55 - delivery acceptance and proof downloads remain Telegram-bound
+  ---
+  duration_ms: 0.76875
+  type: 'test'
+  ...
+# Subtest: client ticket includes private conversation and job proof attachments
+ok 56 - client ticket includes private conversation and job proof attachments
+  ---
+  duration_ms: 0.689583
+  type: 'test'
+  ...
+# Subtest: database payment assignment verifies the winning concurrent insert
+ok 57 - database payment assignment verifies the winning concurrent insert
+  ---
+  duration_ms: 0.492541
+  type: 'test'
+  ...
+# Subtest: Telegram Mini App SDK is loaded before interactive code
+ok 58 - Telegram Mini App SDK is loaded before interactive code
+  ---
+  duration_ms: 0.498208
+  type: 'test'
+  ...
+# Subtest: operations controls include category filters, quiet hours, and audited job details
+ok 59 - operations controls include category filters, quiet hours, and audited job details
+  ---
+  duration_ms: 1.033292
+  type: 'test'
+  ...
+# Subtest: quote expiry, invoice QR, and printable receipts are client-bound
+ok 60 - quote expiry, invoice QR, and printable receipts are client-bound
+  ---
+  duration_ms: 1.910083
+  type: 'test'
+  ...
+# Subtest: partner administration records starts and manual-only payout state
+ok 61 - partner administration records starts and manual-only payout state
+  ---
+  duration_ms: 1.0475
+  type: 'test'
+  ...
+# Subtest: manual payment override is owner-only, acknowledged, audited, and never sends crypto
+ok 62 - manual payment override is owner-only, acknowledged, audited, and never sends crypto
+  ---
+  duration_ms: 0.987709
+  type: 'test'
+  ...
+# Subtest: verified privacy completion deletes stored files before identity anonymisation
+ok 63 - verified privacy completion deletes stored files before identity anonymisation
+  ---
+  duration_ms: 0.887
+  type: 'test'
+  ...
+# Subtest: bot updates and wizard state survive retries without duplicate processing
+ok 64 - bot updates and wizard state survive retries without duplicate processing
+  ---
+  duration_ms: 0.597209
+  type: 'test'
+  ...
+# Subtest: Mini App framing and external navigation remain Telegram-safe
+ok 65 - Mini App framing and external navigation remain Telegram-safe
+  ---
+  duration_ms: 0.582
+  type: 'test'
+  ...
+# Subtest: client ticket payload strips owner-only notes and storage locations
+ok 66 - client ticket payload strips owner-only notes and storage locations
+  ---
+  duration_ms: 0.464792
+  type: 'test'
+  ...
+# Subtest: only Telegram-bound client acceptance can complete a paid job
+ok 67 - only Telegram-bound client acceptance can complete a paid job
+  ---
+  duration_ms: 1.152916
+  type: 'test'
+  ...
+# Subtest: invoice creation serialises capacity and derives the real lead from the quote
+ok 68 - invoice creation serialises capacity and derives the real lead from the quote
+  ---
+  duration_ms: 0.549291
+  type: 'test'
+  ...
+# Subtest: completed database jobs require recorded acceptance evidence
+ok 69 - completed database jobs require recorded acceptance evidence
+  ---
+  duration_ms: 0.541666
+  type: 'test'
+  ...
+# Subtest: production mode cannot silently fall back to demo identity or credentials
+ok 70 - production mode cannot silently fall back to demo identity or credentials
+  ---
+  duration_ms: 1.370584
+  type: 'test'
+  ...
+# Subtest: attachment persistence and Telegram downloads fail closed
+ok 71 - attachment persistence and Telegram downloads fail closed
+  ---
+  duration_ms: 1.4735
+  type: 'test'
+  ...
+# Subtest: runtime containers do not require pnpm after the image is built
+ok 72 - runtime containers do not require pnpm after the image is built
+  ---
+  duration_ms: 0.453292
+  type: 'test'
+  ...
+# Subtest: sensitive qualification, conversations, notes, and testimonials are encrypted at rest
+ok 73 - sensitive qualification, conversations, notes, and testimonials are encrypted at rest
+  ---
+  duration_ms: 0.977417
+  type: 'test'
+  ...
+# Subtest: partner attribution uses an identity-serialised first touch
+ok 74 - partner attribution uses an identity-serialised first touch
+  ---
+  duration_ms: 2.105458
+  type: 'test'
+  ...
+# Subtest: production admin and health surfaces fail closed instead of showing demo records
+ok 75 - production admin and health surfaces fail closed instead of showing demo records
+  ---
+  duration_ms: 1.623833
+  type: 'test'
+  ...
+# Subtest: production API rate limits are Redis-backed and fail closed
+ok 76 - production API rate limits are Redis-backed and fail closed
+  ---
+  duration_ms: 0.481167
+  type: 'test'
+  ...
+# Subtest: Mini App partner attribution is derived only from authenticated Telegram launch data
+ok 77 - Mini App partner attribution is derived only from authenticated Telegram launch data
+  ---
+  duration_ms: 0.409709
+  type: 'test'
+  ...
+# Subtest: public JSON mutation routes enforce bounded streamed bodies
+ok 78 - public JSON mutation routes enforce bounded streamed bodies
+  ---
+  duration_ms: 0.811792
+  type: 'test'
+  ...
+# Subtest: financial and delivery state transitions enforce database-bound evidence
+ok 79 - financial and delivery state transitions enforce database-bound evidence
+  ---
+  duration_ms: 0.6175
+  type: 'test'
+  ...
+# Subtest: client payment evidence is allowlisted and flagged referrals remain non-payable
+ok 80 - client payment evidence is allowlisted and flagged referrals remain non-payable
+  ---
+  duration_ms: 0.319625
+  type: 'test'
+  ...
+# Subtest: connected CI requires a committed frozen pnpm lockfile
+ok 81 - connected CI requires a committed frozen pnpm lockfile
+  ---
+  duration_ms: 0.372583
+  type: 'test'
+  ...
+# Subtest: all web-imported workspace packages expose TypeScript entrypoints for Next
+ok 82 - all web-imported workspace packages expose TypeScript entrypoints for Next
+  ---
+  duration_ms: 0.366958
+  type: 'test'
+  ...
+# Subtest: binary attachment responses copy Buffer data into an owned ArrayBuffer
+ok 83 - binary attachment responses copy Buffer data into an owned ArrayBuffer
+  ---
+  duration_ms: 0.343
+  type: 'test'
+  ...
+# Subtest: three intake wizards can complete
+ok 84 - three intake wizards can complete
+  ---
+  duration_ms: 0.943917
+  type: 'test'
+  ...
+# Subtest: wizard rejects secrets and supports cancel/resume
+ok 85 - wizard rejects secrets and supports cancel/resume
+  ---
+  duration_ms: 0.08875
+  type: 'test'
+  ...
+# Subtest: wizard required fields fail closed
+ok 86 - wizard required fields fail closed
+  ---
+  duration_ms: 0.059791
+  type: 'test'
+  ...
+# Subtest: completed wizard maps to a deterministic safe intake
+ok 87 - completed wizard maps to a deterministic safe intake
+  ---
+  duration_ms: 0.870625
+  type: 'test'
+  ...
+# Subtest: worker jobs validate and redact secrets
+ok 88 - worker jobs validate and redact secrets
+  ---
+  duration_ms: 5.680167
+  type: 'test'
+  ...
+# Subtest: scheduler IDs are deterministic and notification text is bounded
+ok 89 - scheduler IDs are deterministic and notification text is bounded
+  ---
+  duration_ms: 0.518958
+  type: 'test'
+  ...
+# Subtest: watcher resolver never auto-assigns a transfer shared by invoices
+ok 90 - watcher resolver never auto-assigns a transfer shared by invoices
+  ---
+  duration_ms: 0.161042
+  type: 'test'
+  ...
+# Subtest: watcher resolver assigns only unique exact matches
+ok 91 - watcher resolver assigns only unique exact matches
+  ---
+  duration_ms: 0.073084
+  type: 'test'
+  ...
+1..91
+# tests 91
+# suites 0
+# pass 91
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 388.20625
