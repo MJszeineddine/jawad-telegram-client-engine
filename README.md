@@ -48,13 +48,19 @@ pnpm dev
 
 Real wallet addresses, bot tokens, RPC credentials, and webhook secrets belong only in the runtime environment. Never commit them.
 
+Payment receiving addresses and read-only chain providers must be entered only through the local hidden-prompt configurator:
+
+```bash
+corepack pnpm payments:configure
+```
+
 ## Manual gates
 
 Telegram account OTP, two-step verification, BotFather bot creation, channel creation, admin assignment, receiving-wallet configuration, GitHub authentication, DNS, deployment login, billing approval, and production credentials require Jawad's manual action. See `docs/manual-gates.md`.
 
 ## Commands
 
-`npm run qa` runs lint, strict core/web typechecks, the complete unit and contract suite, integration tests, full mock E2E, build validation, secret scan, dependency policy, migration inventory, and repository/setup validation. The exact pushed commit must also pass the connected PostgreSQL/Redis/Next.js/Playwright GitHub Actions gate before deployment. See `docs/release-readiness.md`.
+`npm run qa` runs lint, strict core/web typechecks, the complete unit and contract suite, integration tests, full mock E2E, build validation, secret scan, dependency policy, migration inventory, and repository/setup validation. `scripts/closure-ci.sh` is the owner-independent local closure gate for PostgreSQL, Redis, Next.js, Playwright, Docker image, backup/restore, dependency audit, and Gitleaks evidence. The exact pushed commit must also pass hosted GitHub Actions once the repository owner's account billing lock is cleared. See `docs/release-readiness.md`.
 
 ## Safety boundary
 
