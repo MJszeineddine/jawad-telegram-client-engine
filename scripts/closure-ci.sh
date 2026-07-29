@@ -125,6 +125,35 @@ run_step() {
   fi
 }
 
+probe_runtime_health() {
+  local url response attempt ok
+  for url in \
+    "http://127.0.0.1:${LOCAL_WEB_PORT}/api/health" \
+    "http://127.0.0.1:${LOCAL_BOT_HEALTH_PORT}/health" \
+    "http://127.0.0.1:${LOCAL_WORKER_HEALTH_PORT}/health"
+  do
+    ok=false
+    response="$(mktemp)"
+    for attempt in $(seq 1 45); do
+      if curl -fsS "$url" > "$response"; then
+        cat "$response" >> "$HEALTH_JSONL"
+        printf "\n" >> "$HEALTH_JSONL"
+        rm -f "$response"
+        ok=true
+        break
+      fi
+      sleep 2
+    done
+    if [[ "$ok" != "true" ]]; then
+      rm -f "$response"
+      echo "Health check failed for $url" >&2
+      return 1
+    fi
+  done
+  docker compose exec -T postgres pg_isready -U jawad -d jawad_engine
+  docker compose exec -T redis redis-cli ping
+}
+
 {
   echo "commit=$HEAD_SHA"
   echo "origin_main=$ORIGIN_SHA"
@@ -195,14 +224,14 @@ run_step "Docker image build" docker compose build
 docker compose images > "$IMAGES_TXT"
 
 run_step "container startup" docker compose up -d migrate web worker bot
-run_step "real health checks" bash -c "curl -fsS http://127.0.0.1:${LOCAL_WEB_PORT}/api/health >> '$HEALTH_JSONL' && printf '\n' >> '$HEALTH_JSONL' && curl -fsS http://127.0.0.1:${LOCAL_BOT_HEALTH_PORT}/health >> '$HEALTH_JSONL' && printf '\n' >> '$HEALTH_JSONL' && curl -fsS http://127.0.0.1:${LOCAL_WORKER_HEALTH_PORT}/health >> '$HEALTH_JSONL' && printf '\n' >> '$HEALTH_JSONL' && docker compose exec -T postgres pg_isready -U jawad -d jawad_engine && docker compose exec -T redis redis-cli ping"
+run_step "real health checks" probe_runtime_health
 run_step "database backup" corepack pnpm db:backup
 run_step "create disposable restore database" docker compose exec -T postgres psql -U jawad -d postgres -v ON_ERROR_STOP=1 -c "DROP DATABASE IF EXISTS ${RESTORE_DB}" -c "CREATE DATABASE ${RESTORE_DB}"
 LATEST_BACKUP="$(ls -t "$BACKUP_ROOT"/jawad-client-engine-*.dump | head -1)"
 run_step "restore into isolated disposable database" corepack pnpm db:restore-test -- "$LATEST_BACKUP"
 run_step "restart validation" docker compose restart web worker bot postgres redis
 sleep 8
-run_step "post-restart health validation" bash -c "curl -fsS http://127.0.0.1:${LOCAL_WEB_PORT}/api/health >> '$HEALTH_JSONL' && printf '\n' >> '$HEALTH_JSONL' && curl -fsS http://127.0.0.1:${LOCAL_BOT_HEALTH_PORT}/health >> '$HEALTH_JSONL' && printf '\n' >> '$HEALTH_JSONL' && curl -fsS http://127.0.0.1:${LOCAL_WORKER_HEALTH_PORT}/health >> '$HEALTH_JSONL' && printf '\n' >> '$HEALTH_JSONL' && docker compose exec -T postgres pg_isready -U jawad -d jawad_engine && docker compose exec -T redis redis-cli ping"
+run_step "post-restart health validation" probe_runtime_health
 
 TEST_COUNT="$(grep -hE '^# tests [0-9]+' "$LOG_DIR"/unit_tests.log "$LOG_DIR"/live_PostgreSQL_integration_tests_no_skip.log 2>/dev/null | awk '{sum += $3} END {print sum+0}')"
 BROWSER_COUNT="$(grep -Eo '[0-9]+ passed' "$LOG_DIR"/Playwright_mobile_desktop_browser_tests.log 2>/dev/null | awk '{sum += $1} END {print sum+0}')"
