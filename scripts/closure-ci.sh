@@ -147,8 +147,8 @@ run_step "web typecheck" corepack pnpm typecheck:web
 run_step "unit tests" corepack pnpm test
 
 run_step "start isolated postgres and redis" docker compose up -d --wait postgres redis
-run_step "migration from empty database" corepack pnpm db:migrate
-run_step "idempotent migration repeat" corepack pnpm db:migrate
+run_step "migration from empty database" docker compose run --rm migrate
+run_step "idempotent migration repeat" docker compose run --rm migrate
 run_step "deterministic seed" corepack pnpm db:seed
 run_step "live PostgreSQL integration tests no skip" corepack pnpm test:integration
 
