@@ -166,7 +166,7 @@ for attempt in $(seq 1 30); do
 done
 curl -fsS http://127.0.0.1:3300/health >/dev/null
 node --experimental-strip-types - <<'"'"'NODE'"'"'
-import { chromium } from "playwright";
+import { chromium } from "@playwright/test";
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 await page.goto("http://127.0.0.1:3300/", { waitUntil: "networkidle" });
