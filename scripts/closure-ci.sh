@@ -221,21 +221,26 @@ run_step "secret scan" corepack pnpm secret:scan
 run_step "Gitleaks history redacted" docker run --rm -v "$ROOT:/repo" zricethezav/gitleaks:v8.28.0 detect --source=/repo --no-banner --redact --exit-code=1
 run_step "Docker Compose config" docker compose config
 run_step "Docker image build" docker compose build
-docker compose images > "$IMAGES_TXT"
 
 run_step "container startup" docker compose up -d migrate web worker bot
+docker compose images > "$IMAGES_TXT"
 run_step "real health checks" probe_runtime_health
 run_step "database backup" corepack pnpm db:backup
-run_step "create disposable restore database" docker compose exec -T postgres psql -U jawad -d postgres -v ON_ERROR_STOP=1 -c "DROP DATABASE IF EXISTS ${RESTORE_DB}" -c "CREATE DATABASE ${RESTORE_DB}"
 LATEST_BACKUP="$(ls -t "$BACKUP_ROOT"/jawad-client-engine-*.dump | head -1)"
+BACKUP_SHA="$(shasum -a 256 "$LATEST_BACKUP" | awk '{print $1}')"
+BACKUP_SIZE="$(wc -c < "$LATEST_BACKUP" | tr -d ' ')"
+run_step "create disposable restore database" docker compose exec -T postgres psql -U jawad -d postgres -v ON_ERROR_STOP=1 -c "DROP DATABASE IF EXISTS ${RESTORE_DB}" -c "CREATE DATABASE ${RESTORE_DB}"
 run_step "restore into isolated disposable database" corepack pnpm db:restore-test -- "$LATEST_BACKUP"
+printf "backup_sha256=%s\nbackup_size_bytes=%s\nrestore_database=%s\narchive_retained=false\n" "$BACKUP_SHA" "$BACKUP_SIZE" "$RESTORE_DB" > "$EVIDENCE_DIR/backup-restore.txt"
+find "$BACKUP_ROOT" -type f -name "*.dump" -delete
+find "$BACKUP_ROOT" -depth -type d -empty -delete
 run_step "restart validation" docker compose restart web worker bot postgres redis
 sleep 8
 run_step "post-restart health validation" probe_runtime_health
 
 TEST_COUNT="$(grep -hE '^# tests [0-9]+' "$LOG_DIR"/unit_tests.log "$LOG_DIR"/live_PostgreSQL_integration_tests_no_skip.log 2>/dev/null | awk '{sum += $3} END {print sum+0}')"
 BROWSER_COUNT="$(grep -Eo '[0-9]+ passed' "$LOG_DIR"/Playwright_mobile_desktop_browser_tests.log 2>/dev/null | awk '{sum += $1} END {print sum+0}')"
-IMAGE_COUNT="$(grep -c 'jawad-telegram-client-engine' "$IMAGES_TXT" || true)"
+IMAGE_COUNT="$(tail -n +2 "$IMAGES_TXT" | wc -l | tr -d ' ')"
 
 node - <<NODE > "$SUMMARY_JSON"
 const summary = {
