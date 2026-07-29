@@ -2,7 +2,7 @@
 
 ## Candidate
 
-- Current GitHub commit: `d5759a8`.
+- Current GitHub commit: `5185531`.
 - Safe demo: operational without Telegram, wallet, database, Redis, or AI credentials.
 - Production architecture: Next.js web/Mini App, grammY bot, PostgreSQL, Redis/BullMQ worker, read-only TRON/Base verification, Docker Compose, and GitHub Actions.
 
@@ -27,7 +27,7 @@
 
 ## Connected verification status
 
-The exact pushed commit has an owner-independent local closure equivalent at `scripts/closure-ci.sh`, with evidence under `evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/`. GitHub Actions remains `BLOCKED_EXTERNAL`: GitHub reports an account billing issue before any job starts, so no hosted CI result can become green until the repository owner clears that account state.
+The exact pushed commit has an owner-independent local closure equivalent at `scripts/closure-ci.sh`, with evidence under `evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/`. GitHub Actions remains `BLOCKED_EXTERNAL`: the latest run for `5185531` completed the `Quality gates` job with zero steps and no failed-job log, matching the account/runner pre-job block. No hosted CI result can become green until the repository owner clears that account state.
 
 Production deployment remains intentionally blocked until the manual Telegram, wallet, DNS, and provider gates are completed.
 

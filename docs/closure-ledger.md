@@ -14,6 +14,7 @@ Last updated: 29 July 2026, Asia/Beirut.
 - Full local stack: web, bot health, worker health, PostgreSQL, Redis, and persistent volumes were started, health-checked, restarted, and health-checked again.
 - CI workflow hardening: CI now uses PostgreSQL 17, checks migration idempotence, runs high-severity production and full dependency audits, validates Docker Compose config, and builds the container image.
 - Payment configuration: `corepack pnpm payments:configure` now collects receiving addresses and read-only provider endpoints only through a hidden local terminal prompt, validates public TRON/Base connectivity, pins official USDT TRC20 and USDC Base contract addresses, and writes only ignored `.env`.
+- Deployment-provider inspection: GitHub CLI and Docker Desktop are available locally; Vercel CLI is installed but not logged in; Fly, Railway, Render, Netlify, and Wrangler CLIs are not installed; no provider manifest exists in the repository.
 
 ## Verification Evidence
 
@@ -27,7 +28,7 @@ Last updated: 29 July 2026, Asia/Beirut.
 
 ## Remaining Manual Gates
 
-- GitHub Actions cannot become green until the repository owner's GitHub billing/account lock is cleared; the latest checked run failed before jobs started with a billing issue.
+- GitHub Actions cannot become green until the repository owner's GitHub billing/account lock is cleared; the latest checked run for `5185531` reached the `Quality gates` job with zero steps and no failed-job log.
 - Production deployment still requires owner-controlled hosting login, billing approval, production secrets, DNS, and HTTPS URL configuration.
 - Public Telegram channel launch still requires the owner to create or approve the channel and grant the bot administrator rights.
 - Wallet receiving addresses and read-only chain provider credentials still require owner entry through `corepack pnpm payments:configure` before real payment verification can be enabled in production.

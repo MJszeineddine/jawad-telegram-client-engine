@@ -48,8 +48,16 @@ The project is owner-independent ready for local operation and source-control ha
 ## CI/CD
 
 - CI workflow now uses PostgreSQL 17, migration idempotence, full and production dependency audits at high severity, Docker Compose config validation, and Docker image build.
-- The latest GitHub Actions run could not execute because GitHub reported an account billing issue before jobs started. This requires repository-owner action.
+- The latest GitHub Actions run for `5185531` could not execute useful steps: the `Quality gates` job completed with zero steps and no failed-job log, matching the repository-owner account/runner block.
 - Owner-independent closure CI passed locally through `scripts/closure-ci.sh`; evidence is stored under `evidence/closure/2026-07-29T12-07-06Z-6e6fedcc2776555716f7856a1687b482df087966/`.
+
+## Deployment Provider Audit
+
+- GitHub CLI is authenticated for repository operations, and Docker Desktop is available locally.
+- Vercel CLI is installed but not logged in.
+- Fly, Railway, Render, Netlify, and Wrangler CLIs are not installed.
+- No provider manifest such as `vercel.json`, `fly.toml`, `render.yaml`, `netlify.toml`, or `railway.json` exists in the repository.
+- No production resource, paid service, or deployment was created during closure.
 
 ## External Capability References
 

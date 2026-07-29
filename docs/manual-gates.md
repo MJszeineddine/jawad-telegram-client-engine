@@ -12,5 +12,6 @@ These actions cannot be automated safely:
 - GitHub authentication or repository-creation approval.
 - GitHub account billing or Actions spending-limit fixes when GitHub prevents CI jobs from starting.
 - Deployment-provider login, billing approval, production secrets, DNS, and domain configuration.
+- Production provider selection and approval before creating any hosted resource.
 
 Never provide a seed phrase, private key, session string, OTP, or recovery code.
