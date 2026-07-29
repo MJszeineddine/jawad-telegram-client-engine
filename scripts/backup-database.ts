@@ -10,7 +10,7 @@ await mkdir(root,{recursive:true,mode:0o700});
 const stamp=new Date().toISOString().replace(/[:.]/g,"-");
 const finalPath=join(root,`jawad-client-engine-${stamp}.dump`);
 const temporaryPath=`${finalPath}.partial`;
-function localComposeDatabaseName(url:string):string|undefined{try{const parsed=new URL(url);if((parsed.hostname==="localhost"||parsed.hostname==="127.0.0.1")&&parsed.port==="55432"&&parsed.username==="jawad")return parsed.pathname.slice(1)||undefined}catch{}}
+function localComposeDatabaseName(url:string):string|undefined{try{const parsed=new URL(url);const port=process.env.POSTGRES_HOST_PORT??"55432";if((parsed.hostname==="localhost"||parsed.hostname==="127.0.0.1")&&parsed.port===port&&parsed.username==="jawad")return parsed.pathname.slice(1)||undefined}catch{}}
 const hasPgDump=spawnSync("pg_dump",["--version"],{stdio:"ignore"}).status===0;
 const composeDatabaseName=localComposeDatabaseName(databaseUrl);
 let result;

@@ -5,7 +5,7 @@ const backup=process.argv.slice(2).find(argument=>argument!=="--");const target=
 if(!backup)throw new Error("BACKUP_PATH_REQUIRED");if(!target)throw new Error("RESTORE_DATABASE_URL_REQUIRED");if(production&&target===production)throw new Error("REFUSING_TO_RESTORE_OVER_SOURCE_DATABASE");
 const archive=resolve(backup);
 const hasPgRestore=spawnSync("pg_restore",["--version"],{stdio:"ignore"}).status===0;
-function localComposeDatabaseName(url:string):string|undefined{try{const parsed=new URL(url);if((parsed.hostname==="localhost"||parsed.hostname==="127.0.0.1")&&parsed.port==="55432"&&parsed.username==="jawad")return parsed.pathname.slice(1)||undefined}catch{}}
+function localComposeDatabaseName(url:string):string|undefined{try{const parsed=new URL(url);const port=process.env.POSTGRES_HOST_PORT??"55432";if((parsed.hostname==="localhost"||parsed.hostname==="127.0.0.1")&&parsed.port===port&&parsed.username==="jawad")return parsed.pathname.slice(1)||undefined}catch{}}
 const targetDb=localComposeDatabaseName(target);
 let restore;
 if(hasPgRestore)restore=spawnSync("pg_restore",["--clean","--if-exists","--no-owner","--no-privileges","--dbname",target,archive],{stdio:"inherit",env:{...process.env,PGAPPNAME:"jawad-client-engine-restore-test"}});

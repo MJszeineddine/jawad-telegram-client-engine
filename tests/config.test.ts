@@ -39,9 +39,11 @@ test("local Docker stack avoids common host ports and binds services to loopback
 
   assert.match(compose, /postgres:17-alpine/);
   assert.match(compose, /127\.0\.0\.1:\$\{POSTGRES_HOST_PORT:-55432\}:5432/);
+  assert.match(compose, /127\.0\.0\.1:\$\{REDIS_HOST_PORT:-6379\}:6379/);
   assert.match(compose, /127\.0\.0\.1:\$\{LOCAL_WEB_PORT:-3100\}:3000/);
-  assert.match(compose, /BOT_WEBHOOK_PORT: 3101/);
-  assert.match(compose, /WORKER_HEALTH_PORT: 3200/);
+  assert.match(compose, /BOT_WEBHOOK_PORT: \$\{LOCAL_BOT_HEALTH_PORT:-3101\}/);
+  assert.match(compose, /WORKER_HEALTH_PORT: \$\{LOCAL_WORKER_HEALTH_PORT:-3200\}/);
+  assert.match(compose, /env_file: \$\{COMPOSE_ENV_FILE:-\.env\}/);
   assert.doesNotMatch(compose, /"3000:3000"/);
   assert.match(dockerfile, /pnpm install --frozen-lockfile/);
   assert.match(dockerignore, /\*\*\/node_modules/);
@@ -56,7 +58,8 @@ test("backup and restore Docker fallbacks are limited to the local Compose datab
   for (const source of [backup, restore]) {
     assert.match(source, /localComposeDatabaseName/);
     assert.match(source, /parsed\.hostname==="localhost"\|\|parsed\.hostname==="127\.0\.0\.1"/);
-    assert.match(source, /parsed\.port==="55432"/);
+    assert.match(source, /process\.env\.POSTGRES_HOST_PORT\?\?"55432"/);
+    assert.match(source, /parsed\.port===port/);
     assert.match(source, /parsed\.username==="jawad"/);
   }
   assert.doesNotMatch(backup, /"-d","jawad_engine"/);
