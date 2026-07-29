@@ -5,7 +5,7 @@ Complete these steps manually in the official Telegram app.
 1. Sign in to the dedicated work account using the US number. Never send the OTP to any person, bot, script, or support chat.
 2. Set display name to `Jawad Zeineddine | Full-Stack Rescue`.
 3. Try `@JawadDevDesk`, then `@JawadBuilds`, `@JawadDevDeskLB`, or `@JawadProductionRescue`. Confirm availability manually.
-4. Set bio to: `React, Next.js, Node.js & Python production rescue. White-label agency support. Submit a task through @BOT_USERNAME. Portfolio: mjszeineddine.github.io`
+4. Set bio to: `React, Next.js, Node.js & Python production rescue. White-label agency support. Submit a task through @JawadDevDeskBot. Portfolio: mjszeineddine.github.io`
 5. Privacy and Security:
    - Phone Number visibility: Nobody.
    - Who can find me by my number: My Contacts, or the strictest available practical option.

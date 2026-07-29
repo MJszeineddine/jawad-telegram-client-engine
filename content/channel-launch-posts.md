@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-I build and rescue production web systems when a team needs a clear technical outcome—not another vague development promise. Jawad Dev Desk handles React, Next.js, Node.js, Python, PostgreSQL, authentication, dashboards, integrations, Docker, deployment, and existing-feature repair. Submit a structured task through @BOT_USERNAME.
+I build and rescue production web systems when a team needs a clear technical outcome—not another vague development promise. Jawad Dev Desk handles React, Next.js, Node.js, Python, PostgreSQL, authentication, dashboards, integrations, Docker, deployment, and existing-feature repair. Submit a structured task through @JawadDevDeskBot.
 
 ## 2. GoPilot Express case study
 
@@ -30,4 +30,4 @@ Never send passwords, private keys, seed phrases, `.env` files, or production da
 
 ## 8. Availability
 
-Current capacity is shown inside Jawad Dev Desk. When capacity is full, the system can still collect a request but will not take immediate payment. Submit through @BOT_USERNAME and receive a structured scope after manual review.
+Current capacity is shown inside Jawad Dev Desk. When capacity is full, the system can still collect a request but will not take immediate payment. Submit through @JawadDevDeskBot and receive a structured scope after manual review.

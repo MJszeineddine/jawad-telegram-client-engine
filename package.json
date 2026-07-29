@@ -28,7 +28,8 @@
     "secrets:generate": "node --experimental-strip-types scripts/generate-secrets.ts",
     "db:backup": "node --env-file-if-exists=.env --experimental-strip-types scripts/backup-database.ts",
     "db:restore-test": "node --env-file-if-exists=.env --experimental-strip-types scripts/restore-test.ts",
-    "telegram:bootstrap": "node --env-file-if-exists=.env --experimental-strip-types scripts/bootstrap-telegram.ts"
+    "telegram:bootstrap": "node --env-file-if-exists=.env --experimental-strip-types scripts/bootstrap-telegram.ts",
+    "payments:configure": "node --env-file-if-exists=.env --experimental-strip-types scripts/configure-payments.ts"
   },
   "devDependencies": {
     "@playwright/test": "1.61.1",

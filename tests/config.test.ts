@@ -65,6 +65,23 @@ test("backup and restore Docker fallbacks are limited to the local Compose datab
   assert.doesNotMatch(backup, /"-d","jawad_engine"/);
 });
 
+test("payment configuration is terminal-only, read-only, and pins official network constants", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const script = await readFile(new URL("../scripts/configure-payments.ts", import.meta.url), "utf8");
+  const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8")) as { scripts: Record<string, string> };
+  assert.match(packageJson.scripts["payments:configure"] ?? "", /--env-file-if-exists=\.env/);
+  assert.match(script, /TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t/);
+  assert.match(script, /0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913/);
+  assert.match(script, /BASE_CHAIN_ID = "8453"/);
+  assert.match(script, /stty", \["-echo"\]/);
+  assert.match(script, /eth_chainId/);
+  assert.match(script, /walletsolidity\/getnowblock/);
+  assert.doesNotMatch(script, /privateKey|seed phrase|mnemonic|eth_sendTransaction|transfer\(/i);
+  const consoleLogLines = script.split(/\r?\n/).filter((line) => line.includes("console.log"));
+  assert.equal(consoleLogLines.length, 1);
+  for (const line of consoleLogLines) assert.doesNotMatch(line, /usdtAddress|usdcAddress|tronApiKey/);
+});
+
 test("live local Telegram mode validates without wallet or HTTPS deployment credentials", async () => {
   const { spawnSync } = await import("node:child_process");
   const { randomBytes, createHash } = await import("node:crypto");
