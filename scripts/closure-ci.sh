@@ -153,7 +153,7 @@ run_step "deterministic seed" corepack pnpm db:seed
 run_step "live PostgreSQL integration tests no skip" corepack pnpm test:integration
 
 run_step "E2E" corepack pnpm test:e2e
-run_step "Next.js production build" corepack pnpm --filter @jawad/web build
+run_step "Next.js production build" env NODE_ENV=production DEMO_MODE=true corepack pnpm --filter @jawad/web build
 run_step "Playwright chromium install" corepack pnpm exec playwright install chromium
 run_step "Playwright mobile desktop browser tests" corepack pnpm test:browser
 run_step "accessibility smoke and overflow" bash -c 'PORT=3300 corepack pnpm dev >"$0/accessibility-demo-server.log" 2>&1 &
