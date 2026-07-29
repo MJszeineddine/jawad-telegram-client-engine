@@ -27,3 +27,7 @@ Do not guess. Compare network, token, recipient, amount, timestamps, confirmatio
 ## Backup failure
 
 Do not delete the previous known-good archive. Check free disk space and PostgreSQL client compatibility, rerun the backup, and keep payment acceptance paused when no recoverable database copy exists. Backup archives contain business data and must remain private; they intentionally exclude wallet private keys because the application never stores any.
+
+## Telegram transport operations
+
+For local operation, verify `/health` returns `ready: true` and `mode: long_polling`, then confirm `getWebhookInfo.url` is empty and that exactly one polling process exists. For production, use `mode: webhook` and verify the secret header. A listening health endpoint alone is not proof that Telegram updates are being consumed.

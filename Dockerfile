@@ -12,5 +12,5 @@ WORKDIR /app
 COPY --from=build --chown=node:node /app /app
 RUN mkdir -p /app/runtime/uploads && chown -R node:node /app/runtime
 USER node
-EXPOSE 3000 3001 3002
+EXPOSE 3000 3101 3200
 CMD ["node","apps/web/node_modules/next/dist/bin/next","start","apps/web","--port","3000"]

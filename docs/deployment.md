@@ -24,3 +24,7 @@
 12. Enable payment only after wallet, network, token contract, and confirmation labels are visually checked by Jawad.
 
 The public Base endpoint is rate-limited and should not be used as the production provider. No paid resource should be created without Jawad's approval. No deployment is considered verified until HTTPS, webhook delivery, database/Redis readiness, backup restore evidence, and a complete synthetic lead-to-accepted-job flow pass in that environment.
+
+## Telegram transport contract
+
+Production uses `TELEGRAM_UPDATE_MODE=webhook` with a verified HTTPS webhook, `TELEGRAM_WEBHOOK_PORT`, and `TELEGRAM_WEBHOOK_SECRET`. Local Docker uses `TELEGRAM_UPDATE_MODE=long_polling` with a separate `BOT_HEALTH_PORT`. Never infer webhook mode from a health port. Stop long polling before enabling the production webhook.

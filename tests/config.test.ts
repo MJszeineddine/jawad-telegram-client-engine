@@ -26,12 +26,14 @@ test("Telegram bootstrap is token-safe, pairs the owner, and launches long polli
   assert.match(source, /setChatMenuButton/);
   assert.match(source, /pnpm", "dev:bot/);
   assert.match(source, /localhost:55432\/jawad_engine/);
+  assert.match(source, /TELEGRAM_UPDATE_MODE: "long_polling"/);
+  assert.match(source, /BOT_HEALTH_PORT/);
   assert.match(source, /Admin chat paired: yes/);
   assert.doesNotMatch(source, /Admin chat paired: \$\{/);
   assert.doesNotMatch(source, /console\.(?:log|error)\([^\n]*token/i);
 });
 
-test("local Docker stack avoids common host ports and binds services to loopback", async () => {
+test("local Docker stack avoids common host ports, binds services to loopback, and explicitly selects long polling", async () => {
   const { readFile } = await import("node:fs/promises");
   const compose = await readFile(new URL("../docker-compose.yml", import.meta.url), "utf8");
   const dockerfile = await readFile(new URL("../Dockerfile", import.meta.url), "utf8");
@@ -41,11 +43,14 @@ test("local Docker stack avoids common host ports and binds services to loopback
   assert.match(compose, /127\.0\.0\.1:\$\{POSTGRES_HOST_PORT:-55432\}:5432/);
   assert.match(compose, /127\.0\.0\.1:\$\{REDIS_HOST_PORT:-6379\}:6379/);
   assert.match(compose, /127\.0\.0\.1:\$\{LOCAL_WEB_PORT:-3100\}:3000/);
-  assert.match(compose, /BOT_WEBHOOK_PORT: \$\{LOCAL_BOT_HEALTH_PORT:-3101\}/);
+  assert.match(compose, /TELEGRAM_UPDATE_MODE: long_polling/);
+  assert.match(compose, /BOT_HEALTH_PORT: \$\{LOCAL_BOT_HEALTH_PORT:-3101\}/);
+  assert.doesNotMatch(compose, /BOT_WEBHOOK_PORT/);
   assert.match(compose, /WORKER_HEALTH_PORT: \$\{LOCAL_WORKER_HEALTH_PORT:-3200\}/);
   assert.match(compose, /env_file: \$\{COMPOSE_ENV_FILE:-\.env\}/);
   assert.doesNotMatch(compose, /"3000:3000"/);
   assert.match(dockerfile, /pnpm install --frozen-lockfile/);
+  assert.match(dockerfile, /EXPOSE 3000 3101 3200/);
   assert.match(dockerignore, /\*\*\/node_modules/);
   assert.match(dockerignore, /\*\*\/\.next/);
 });
@@ -101,7 +106,8 @@ test("live local Telegram mode validates without wallet or HTTPS deployment cred
       TELEGRAM_BOT_TOKEN: `123456789:${"abcdefghijklmnopqrstuvwxyzABCDE"}`,
       TELEGRAM_ADMIN_CHAT_ID: "123456789",
       TELEGRAM_BOT_USERNAME: "JawadDevDeskBot",
-      TELEGRAM_WEBHOOK_SECRET: randomBytes(32).toString("base64url"),
+      TELEGRAM_UPDATE_MODE: "long_polling",
+      BOT_HEALTH_PORT: "3101",
       TRON_API_BASE_URL: "https://api.trongrid.io",
     },
   });

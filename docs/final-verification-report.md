@@ -71,3 +71,7 @@ The project is owner-independent ready for local operation and source-control ha
 - Base `eth_getTransactionReceipt`: https://docs.base.org/base-chain/api-reference/ethereum-json-rpc-api/eth_getTransactionReceipt
 - Circle USDC contracts: https://developers.circle.com/stablecoins/usdc-contract-addresses
 - Tether supported protocols: https://tether.to/en/supported-protocols/
+
+## Telegram transport correction
+
+The prior local health result did not prove update consumption. The repaired runtime decouples the health server from Telegram transport selection, starts long polling explicitly in local Docker, fails closed for unknown modes, and retains timing-safe webhook verification for production. Source and runtime gates must not call the live `/start` flow verified until an owner-originated post-repair update receives the expected reply.

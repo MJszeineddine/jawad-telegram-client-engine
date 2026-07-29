@@ -126,9 +126,13 @@ const updates: Record<string, string> = {
   APP_BASE_URL: existing.APP_BASE_URL || "http://localhost:3100",
   MINI_APP_URL: existing.MINI_APP_URL || "",
   DATABASE_URL: existing.DATABASE_URL || "postgresql://jawad:jawad@localhost:55432/jawad_engine",
+  POSTGRES_HOST_PORT: existing.POSTGRES_HOST_PORT || "55432",
   REDIS_URL: existing.REDIS_URL || "redis://localhost:6379",
   TRUSTED_PROXY_HEADER: existing.TRUSTED_PROXY_HEADER || "x-real-ip",
   TELEGRAM_BOT_TOKEN: token,
+  TELEGRAM_UPDATE_MODE: "long_polling",
+  BOT_HEALTH_PORT: existing.BOT_HEALTH_PORT || "3101",
+  TELEGRAM_WEBHOOK_PORT: "",
   TELEGRAM_BOT_USERNAME: username,
   TELEGRAM_ADMIN_CHAT_ID: adminChatId,
   TELEGRAM_WEBHOOK_SECRET: existing.TELEGRAM_WEBHOOK_SECRET || randomBytes(32).toString("base64url"),
@@ -160,6 +164,8 @@ catch { composeWaitSucceeded = false; run("docker", ["compose", "up", "-d", "pos
 if (!composeWaitSucceeded) await new Promise(resolveDelay => setTimeout(resolveDelay, 8_000));
 run("corepack", ["pnpm", "db:migrate"], childEnv);
 run("corepack", ["pnpm", "db:seed"], childEnv);
+// A host long-polling process and the Compose bot must never consume updates together.
+spawnSync("docker", ["compose", "stop", "bot"], { cwd: root, env: childEnv, stdio: "inherit" });
 
 await mkdir(logDir, { recursive: true });
 await stopPreviousBot();
@@ -173,8 +179,17 @@ const bot = spawn("corepack", ["pnpm", "dev:bot"], {
 bot.unref();
 if (!bot.pid) throw new Error("Bot process did not start");
 await writeFile(pidPath, `${bot.pid}\n`, { mode: 0o600 });
-await new Promise(resolveDelay => setTimeout(resolveDelay, 4_000));
-try { process.kill(bot.pid, 0); } catch { throw new Error(`Bot process exited. Inspect ${logPath}`); }
+let healthy=false;
+for(let attempt=0;attempt<30;attempt++){
+  await new Promise(resolveDelay=>setTimeout(resolveDelay,1_000));
+  try{process.kill(bot.pid,0)}catch{throw new Error(`Bot process exited. Inspect ${logPath}`)}
+  try{
+    const response=await fetch(`http://127.0.0.1:${updates.BOT_HEALTH_PORT}/health`,{signal:AbortSignal.timeout(2_000)});
+    const payload=await response.json() as {ready?:boolean;mode?:string};
+    if(response.ok&&payload.ready===true&&payload.mode==="long_polling"){healthy=true;break}
+  }catch{}
+}
+if(!healthy)throw new Error(`Bot long polling did not become ready. Inspect ${logPath}`);
 await telegram(token, "sendMessage", { chat_id: adminChatId, text: "Jawad Dev Desk local bot is online. Send /start to run the live intake test." });
 
 console.log("\nTelegram bootstrap PASS");

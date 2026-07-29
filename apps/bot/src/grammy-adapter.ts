@@ -1,13 +1,12 @@
-import { createServer } from "node:http";
-import { createHash,timingSafeEqual } from "node:crypto";
+import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { processMockUpdate, commands } from "./core.ts";
 import { startWizard, answerWizard, cancelWizard, resumeWizard, currentPrompt, type WizardSession, type WizardKind } from "./wizard.ts";
 import { validateAttachment, demandAlertDecision, mayMonitorGroup, SlidingWindowRateLimiter, type DemandCategoryId } from "../../../packages/telegram/src/index.ts";
 import { LocalAttachmentStore, type StoredAttachment } from "../../../packages/attachments/src/index.ts";
 import { MemoryBotWizardStore, type BotWizardStore } from "./session-store.ts";
+import { parseRuntimePort, parseTelegramUpdateMode, startBotTransport } from "./transport.ts";
 
-function safeEqual(a:string,b:string){const x=Buffer.from(a),y=Buffer.from(b);return x.length===y.length&&timingSafeEqual(x,y)}
 function wizardKind(value:string):WizardKind|undefined{return value==="fix"||value==="agency"||value==="rescue"?value:undefined}
 async function readBoundedBody(response:Response,maxBytes:number):Promise<Buffer>{
   if(!response.body)throw new Error("EMPTY_ATTACHMENT_RESPONSE");
@@ -75,43 +74,29 @@ ${signal.suggestedManualResponse}`);if(decision.automaticReply&&approvedTemplate
 }
 
 export async function runProductionBot(input:ProductionBotInput){
-  const bot=await createProductionBot(input);const port=Number(process.env.BOT_WEBHOOK_PORT??0);if(!port){await bot.start({allowed_updates:["message","callback_query"]});return}
-  if(!input.webhookSecret)throw new Error("TELEGRAM_WEBHOOK_SECRET is required in webhook mode");
-  const webhookSecret = input.webhookSecret;
-  const server = createServer(async (req, res) => {
-    if (req.method === "GET" && req.url === "/health") {
-      res.writeHead(200, { "content-type": "application/json", "cache-control": "no-store" });
-      res.end(JSON.stringify({ ok: true, service: "telegram-bot" }));
-      return;
-    }
-    if (req.method !== "POST") {
-      res.writeHead(405).end();
-      return;
-    }
-    const provided = String(req.headers["x-telegram-bot-api-secret-token"] ?? "");
-    if (!safeEqual(provided, webhookSecret)) {
-      res.writeHead(403).end();
-      return;
-    }
-    const chunks: Buffer[] = [];
-    let total = 0;
-    for await (const chunk of req) {
-      const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
-      total += buffer.length;
-      if (total > 1_000_000) {
-        res.writeHead(413).end();
-        return;
-      }
-      chunks.push(buffer);
-    }
-    try {
-      await bot.handleUpdate(JSON.parse(Buffer.concat(chunks).toString("utf8")));
-      res.writeHead(200).end();
-    } catch {
-      res.writeHead(500).end();
-    }
-  });
-  server.listen(port, () => {
-    console.log(JSON.stringify({ level: "info", service: "bot", mode: "webhook", port }));
-  });
+  const bot=await createProductionBot(input);
+  const mode=parseTelegramUpdateMode(process.env.TELEGRAM_UPDATE_MODE);
+  const port=mode==="long_polling"
+    ? parseRuntimePort(process.env.BOT_HEALTH_PORT??"3101","BOT_HEALTH_PORT")
+    : parseRuntimePort(process.env.TELEGRAM_WEBHOOK_PORT,"TELEGRAM_WEBHOOK_PORT");
+  const handle=await startBotTransport(bot,{mode,port,...(input.webhookSecret?{webhookSecret:input.webhookSecret}:{})});
+  let shuttingDown=false;
+  const shutdown=(signal:string)=>{
+    if(shuttingDown)return;
+    shuttingDown=true;
+    void handle.stop(signal).catch(error=>{
+      console.error(JSON.stringify({level:"error",service:"bot",event:"shutdown-failed",error:error instanceof Error?error.message:"UNKNOWN"}));
+      process.exitCode=1;
+    });
+  };
+  const onSigterm=()=>shutdown("SIGTERM");
+  const onSigint=()=>shutdown("SIGINT");
+  process.once("SIGTERM",onSigterm);
+  process.once("SIGINT",onSigint);
+  try{
+    await handle.completion;
+  }finally{
+    process.off("SIGTERM",onSigterm);
+    process.off("SIGINT",onSigint);
+  }
 }

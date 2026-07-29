@@ -54,11 +54,13 @@ services:
   bot:
     build: .
     command: ["node", "--experimental-strip-types", "apps/bot/src/index.ts"]
-    env_file: .env
+    env_file: ${COMPOSE_ENV_FILE:-.env}
     environment:
       DATABASE_URL: postgresql://jawad:jawad@postgres:5432/jawad_engine
       REDIS_URL: redis://redis:6379
-      BOT_WEBHOOK_PORT: ${LOCAL_BOT_HEALTH_PORT:-3101}
+      TELEGRAM_UPDATE_MODE: long_polling
+      BOT_HEALTH_PORT: ${LOCAL_BOT_HEALTH_PORT:-3101}
+      TELEGRAM_WEBHOOK_PORT: ""
       ATTACHMENT_ROOT: /app/runtime/uploads
     volumes: ["uploads_data:/app/runtime/uploads"]
     depends_on:

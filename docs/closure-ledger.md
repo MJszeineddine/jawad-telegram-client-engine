@@ -37,3 +37,7 @@ Last updated: 29 July 2026, Asia/Beirut.
 ## Resume Point
 
 After the GitHub billing/account lock is cleared, resume by rerunning the pushed GitHub Actions workflow. Independently, the next owner actions are: send `/start` to `@JawadDevDeskBot`, run `corepack pnpm payments:configure` in a local terminal, and choose an approved production hosting/DNS path.
+
+## Telegram transport correction
+
+A live owner `/start` test exposed a false-positive health condition: the former `BOT_WEBHOOK_PORT` variable selected webhook mode while being used as a local health port. The transport is now explicit (`long_polling` or `webhook`), local health readiness is tied to polling startup, queued updates are preserved with `drop_pending_updates: false`, and regression tests cover both modes. A real post-repair owner `/start` reply remains the final live-user evidence gate.

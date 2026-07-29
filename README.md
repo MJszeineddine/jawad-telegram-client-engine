@@ -65,3 +65,7 @@ Telegram account OTP, two-step verification, BotFather bot creation, channel cre
 ## Safety boundary
 
 No userbots, mass DMs, private-group scraping, contact harvesting, unsolicited automatic replies, OTP automation, private keys, seed phrases, automatic payouts/refunds, automatic repository access, or intrusive production scanning.
+
+## Telegram update transport
+
+Local development is explicit: `TELEGRAM_UPDATE_MODE=long_polling` and `BOT_HEALTH_PORT=3101`. The health port never selects the Telegram transport. Production must set `TELEGRAM_UPDATE_MODE=webhook`, `TELEGRAM_WEBHOOK_PORT`, and `TELEGRAM_WEBHOOK_SECRET`. Unknown or missing live modes fail closed.
